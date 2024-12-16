@@ -280,8 +280,7 @@
                         var slno = j+data.offset;
                         var str = '<tr>';
                    
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>';
-                        
+                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/variants'+'" class="" title="Variants"><img src="{{asset('img/upload.svg')}}" alt="Variants Icon" height="25"></a>';                        
                         str +='</td></tr>';
                         $('#datatable_ tbody').append(str);
                         j++;
@@ -391,8 +390,7 @@ $('#to_date').datepicker({
                         var url_ = '<?php echo url('/');?>';
                         var slno = j+data.offset;
                         var str = '<tr>';
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>';
-                        
+                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/variants'+'" class="" title="Variants"><img src="{{asset('img/upload.svg')}}" alt="Variants Icon" height="25"></a>';                        
                         str +='</td></tr>';
 
                              
@@ -478,8 +476,7 @@ $('#to_date').datepicker({
                         var url_ = '<?php echo url('/');?>';
                         var slno = j+data.offset;
                         var str = '<tr>';
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>';
-                        
+                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/variants'+'" class="" title="Variants"><img src="{{asset('img/upload.svg')}}" alt="Variants Icon" height="25"></a>';                        
                         str +='</td></tr>';
                         $('#datatable_ tbody').append(str);
                         j++;
@@ -579,8 +576,7 @@ $('#to_date').datepicker({
                         
                         var str = '<tr>';
                        
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>';
-                        
+                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/variants'+'" class="" title="Variants"><img src="{{asset('img/upload.svg')}}" alt="Variants Icon" height="25"></a>';                        
                         str +='</td></tr>';
                         
                        
@@ -702,8 +698,7 @@ $('#to_date').datepicker({
                         
                        var str = '<tr>';
                        
-                       str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>';
-                       
+                       str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].model_no+'</td><td>'+data.result[i].created_on+'</td><td><a href="' +url_+'/admin/model_management/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/upload'+'" class="" title="Upload"><img src="{{asset('img/upload.svg')}}" alt="Upload Icon" height="25"></a>'+'<a href="' +url_+'/admin/model_management/'+data.result[i].id + '/variants'+'" class="" title="Variants"><img src="{{asset('img/upload.svg')}}" alt="Variants Icon" height="25"></a>';                       
                         str +='</td></tr>';
                        
                         $('#datatable_ tbody').append(str);

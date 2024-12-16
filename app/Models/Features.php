@@ -1,9 +1,8 @@
 <?php namespace App\Models; 
 use App\Models\BaseModel, App\Models\ValidationTrait;
 use Auth;
-use App\Models\UserDetails;
 
-class Enquiry extends BaseModel {
+class Features extends BaseModel {
     
     use ValidationTrait; 
 
@@ -18,22 +17,20 @@ class Enquiry extends BaseModel {
    * @var string
    */
       /**
-    * ibell warranty
-    * TradeEnquiry Model
+   
+    * ModelNumber Model
     
     *
-    * @package        ibell warranty
-    * @author         Rahul 
+    * @package        
+    * @author         Annie 
     * @copyright   Copyright (c) 2024, Seeroo IT Solutions (p) Ltd
     * @link       http://www.seeroo.com/
 
     */
   
-  protected $table = 'enquiry';
+  protected $table = 'features';
  
-  protected $fillable = [
-      'model_id','courtesy_title','name','contact_no','city','model_name','status','message','created_at'
-  ];
+  protected $fillable = array('id','model_id','title','description','image_url','status','created_at','updated_at');
 
   public $uploadPath = array('thumbnails' => ''); 
 
@@ -57,8 +54,6 @@ class Enquiry extends BaseModel {
   }
 
 
-
-     
 
     
 }

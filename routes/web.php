@@ -15,7 +15,7 @@ Route::post('/enquiry', 'App\\Http\\Controllers\\HomeController@enquiry')->name(
 
 Route::get('/check-order-id', 'App\Http\Controllers\HomeController@checkOrderId'); 
 
-Route::get('detail/{id}', 'App\Http\Controllers\HomeController@detailPage')->name('detail');
+Route::get('detail/{slug}', 'App\Http\Controllers\HomeController@detailPage')->name('detail');
 
 
 Route::get('no_access', 'App\\Http\\Controllers\\SettingsController@no_access')->middleware('checkRole:client');
@@ -122,6 +122,8 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
   Route::group(['prefix' => 'model_management'], function () {
     Route::post('model_list', 'App\Http\Controllers\Admin\ModelManagementController@modelIdList');
     Route::get('{id}/upload', 'App\Http\Controllers\Admin\ModelManagementController@upload');
+    Route::get('{id}/variants', 'App\Http\Controllers\Admin\ModelManagementController@variants');
+
     //Route::get('model_management/{id}/upload', [App\Http\Controllers\Admin\ModelManagementController::class, 'upload'])->name('Admin.model_management.upload');
 
     Route::post('upload_images', 'App\Http\Controllers\Admin\ModelManagementController@upload_images')->name('admin.model_management.upload_images');
@@ -132,6 +134,7 @@ Route::get('/file-list', [ModelManagementController::class, 'list'])->name('file
 Route::post('/file-delete', [ModelManagementController::class, 'delete'])->name('file.delete');
 
 Route::post('/upload/store', 'App\Http\Controllers\Admin\ModelManagementController@storeCarImages');
+Route::post('/variants_store', 'App\Http\Controllers\Admin\ModelManagementController@variantsStore');
 
   });
 

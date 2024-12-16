@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lexus</title>
-<link rel="shortcut icon" href="favicon.png">
+<link rel="shortcut icon" href="{{ asset('assets/favicon.png') }}">
 <!-- Common css -->
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
@@ -68,16 +68,17 @@
                   {!! Form::label('inlineRadio3', 'Ms.', ['class' => 'form-check-label']) !!}
                 </div>
               </div>
+                  {!! Form::hidden('model_id', old('model_id'), array('class'=>'form-control', 'id'=>'model_id_enquiry','placeholder'=>'')) !!}
               <div class="row formBlock">
                 <div class="col-lg-12">
-                  <label for="exampleFormControlInput1" class="form-label">Name*</label>
+                  <label for="name" class="form-label">Name*</label>
                   {!! Form::text('name', old('name'), array('class'=>'form-control', 'id'=>'name','placeholder'=>'')) !!}
                   <span  class="text-danger error" style="color:#e03b3b" id="name_error">{{ $errors->first('name') }}</span>  
                   </div>
               </div>
               <div class="row formBlock formBlockSelect">
                 <div class="col-lg-12">
-                  <label for="exampleFormControlInput1" class="form-label">Mobile Number*</label>
+                  <label for="phone" class="form-label">Mobile Number*</label>
                 </div>
                 <div class="col-lg-4">
                   <select class="form-select" aria-label="Default select example">
@@ -133,41 +134,6 @@
   </div>
 </div>
 
-<!-----slider start------>
-<!-- <section class="slider_section">
-  <div id="carouselMain" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      @foreach ($models as $index => $model)
-        <button 
-          type="button" 
-          data-bs-target="#carouselMain" 
-          data-bs-slide-to="{{ $index }}" 
-          class="thumbnail {{ $index === 0 ? 'active' : '' }}" 
-          aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
-          aria-label="Slide {{ $index + 1 }}">
-          <img src="{{ asset('$model->banner_image') }}" class="d-block w-100" alt="Banner {{ $index + 1 }}">
-        </button>
-      @endforeach
-    </div>
-    <div class="carousel-inner">
-      @foreach ($models as $index => $model)
-        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-          <img src="{{ asset('$model->banner_image') }}" class="d-block w-100 slideImg" alt="Banner {{ $index + 1 }}">
-          <div class="carousel-caption d-none d-md-block">
-            <h1 class="animated fadeInUp">LEXUS {{ $model->title ?? 'MODEL' }}</h1>
-            <h5 class="animated fadeInUp">{{ $model->description ?? 'Refined Drive' }}</h5>
-            <p class="animated fadeInUp">From INR {{ $model->price ?? 'XX,XX,XXX' }}</p>
-            <span class="banrCTA animated fadeInUp">
-              <a href="{{ route('detail', ['id' => $model->id]) }}" class="btn">Explore</a>
-              <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Enquiry</a>
-              <a href="" class="lineDownload">Download Brochure</a>
-            </span>
-          </div>
-        </div>
-      @endforeach
-    </div>
-  </div>
-</section> -->
 
 
 <section class="slider_section">
@@ -190,13 +156,12 @@
       @foreach($models as $model)
       <div class="carousel-item {{ $j === 0 ? 'active' : '' }}"> <img src="{{asset($model['banner_image'])}}" class="d-block w-100 slideImg" alt="...">
         <div class="carousel-caption d-none d-md-block ">
-          <h1 class="animated fadeInUp">LEXUS ES</h1>
-          <h5 class="animated fadeInUp">REFINE<br>
-            YOUR DRIVE</h5>
-          <p class="animated fadeInUp">From INR 64,00,000</p>
-          <span class="banrCTA" class="animated fadeInUp"> <a href="{{ route('detail', ['id' => $model['id']]) }}" class="btn">Explore ES</a> <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+          <h1 class="animated fadeInUp">{{ $model->model_id }}</h1>
+          <h5 class="animated fadeInUp col-lg-6">{{ $model->banner_text }}</h5>
+          <p class="animated fadeInUp">From INR {{ number_format($model->price) }}</p>
+          <span class="banrCTA" class="animated fadeInUp"> <a href="{{ route('detail', ['slug' => $model['slug']]) }}"  class="btn">Explore {{ $model->model_id }}</a> <a href="" data-bs-toggle="modal" data-id="{{ $model['id'] }}" data-name="{{ $model['model_id'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
           <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
-          </svg></a> <a href="" class="lineDownload"> Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          </svg></a> <a href="{{ asset($model->brochure) }}" class="lineDownload" download> Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M8 10L7.29289 10.7071L8 11.4142L8.70711 10.7071L8 10ZM9 1C9 0.447715 8.55229 2.42698e-07 8 2.18557e-07C7.44772 1.94416e-07 7 0.447715 7 1L9 1ZM2.29289 5.70711L7.29289 10.7071L8.70711 9.29289L3.70711 4.29289L2.29289 5.70711ZM8.70711 10.7071L13.7071 5.70711L12.2929 4.29289L7.29289 9.29289L8.70711 10.7071ZM9 10L9 1L7 1L7 10L9 10Z" fill="white"/>
           <path d="M1 12L1 13C1 14.1046 1.89543 15 3 15L13 15C14.1046 15 15 14.1046 15 13V12" stroke="white" stroke-width="2"/>
           </svg></a> </span> </div>
@@ -222,10 +187,7 @@
         <div class="col-lg-6">
           <div class="lexusContact" data-aos="fade-up" data-aos-duration="2500">
             <div class="addressTitle">We are in Kochi, Visit Us</div>
-            <div class="address"> <span>{{$home_content->title}}</span> Nippon Motor Corporation Pvt.Ltd<br>
-              Nippon Towers, NH544, <br>
-              HMT Junction, South Kalamassery, <br>
-              Kochi - 683104, Kerala, India </div>
+            <div class="address col-lg-4"> <span>{{$home_content->title}}</span>{{$home_content->address}}</div>
             <div class="contact"> <a href="">{{$home_content->phone_number}}</a></div>
             <div class="email"> <a href="">{{$home_content->email}}</a></div>
             <div class="socialMediaSection"> <span>Join us on</span>
@@ -284,4 +246,26 @@ $(document).on("scroll", function(){
 });	
 
 </script>
+<script>
+  // Get the enquiry button and modal
+  const enquiryButton = document.getElementById('enquiryButton');
+  const vehicleModelInput = document.getElementById('vehicle_model');
+  const modelIdInput = document.getElementById('model_id_enquiry');
+  
+  // Add event listener for when the modal is about to show
+  enquiryButton.addEventListener('click', function() {
+    const modelId = enquiryButton.getAttribute('data-id'); // Get the model_id from the button's data-id attribute
+    const modelName = enquiryButton.getAttribute('data-name');
+    vehicleModelInput.value = modelName;
+    modelIdInput.value = modelId; // Set the model_id to the hidden input in the modal
+  });
+</script>
+<!-- <script>
+  $(document).ready(function() {
+  // If validation errors exist, open the modal
+  @if ($errors->any())
+    $('#staticBackdrop').modal('show');
+  @endif
+});
+</script> -->
 </html>

@@ -70,6 +70,7 @@
                     {!! Form::label('inlineRadio3', 'Ms.', ['class' => 'form-check-label']) !!}
                   </div>
                 </div>
+                {!! Form::hidden('model_id', old('model_id', $model->id), array('class'=>'form-control', 'id'=>'model_id','placeholder'=>'')) !!}
                 <div class="row formBlock">
                   <div class="col-lg-12">
                     <label for="exampleFormControlInput1" class="form-label">Name*</label>
@@ -99,7 +100,7 @@
                   </div>
                   <div class="col-lg-6">
                     <label for="exampleFormControlInput1" class="form-label">Vehicle Model</label>
-                    {!! Form::text('vehicle_model', old('vehicle_model'), array('class'=>'form-control', 'id'=>'vehicle_model','placeholder'=>'')) !!}
+                    {!! Form::text('vehicle_model', old('vehicle_model', $model->model_id), array('class'=>'form-control', 'id'=>'vehicle_model','placeholder'=>'')) !!}
                     <span  class="text-danger error" style="color:#e03b3b" id="vehicle_model_error">{{ $errors->first('vehicle_model') }}</span>  
                   </div>
                 </div>
@@ -118,7 +119,7 @@
                 <div class="row formBlock">
                   <div class="col-lg-12">
                     <label for="exampleFormControlTextarea1" class="form-label">Message/Comments</label>
-                    {!! Form::textarea('comments', old('comments'), array('class'=>'form-control', 'id'=>'comments', 'rows'=>'3', 'placeholder'=>'')) !!} 
+                    {!! Form::textarea('message', old('comments'), array('class'=>'form-control', 'id'=>'comments', 'rows'=>'3', 'placeholder'=>'')) !!} 
                   </div>
                 </div>
                 <div class="row formBlock">
@@ -170,7 +171,7 @@
       </div>
       <div class="col-lg-12 detailContent"  data-aos="fade-up" data-aos-duration="2500">
         <p> The ES 300h exquisite pairs a 2.5-liter direct injection engine with a powerful, self-charging electric motor to deliver 214 horsepower with maximum fuel efficiency. </p>
-        <a class="line_btn" href="">Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <a class="line_btn" href="{{ asset($model->brochure) }}" download>Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M8 10L7.29289 10.7071L8 11.4142L8.70711 10.7071L8 10ZM9 1C9 0.447715 8.55229 2.42698e-07 8 2.18557e-07C7.44772 1.94416e-07 7 0.447715 7 1L9 1ZM2.29289 5.70711L7.29289 10.7071L8.70711 9.29289L3.70711 4.29289L2.29289 5.70711ZM8.70711 10.7071L13.7071 5.70711L12.2929 4.29289L7.29289 9.29289L8.70711 10.7071ZM9 10L9 1L7 1L7 10L9 10Z" fill="white"/>
         <path d="M1 12L1 13C1 14.1046 1.89543 15 3 15L13 15C14.1046 15 15 14.1046 15 13V12" stroke="white" stroke-width="2"/>
         </svg> </a> </div>
@@ -181,293 +182,166 @@
 <!-----slider end------>
 
 <div class="whole-section">
-  <section class="explorevehicle_section">
-    <div class="container" data-aos="fade-up" data-aos-duration="2500">
-      <div class="row">
-        <div class="col-lg-12 ">
-          <h2> EXPLORE YOUR ES</h2>
-        </div>
-      </div>
-    </div>
-    <div class="flex_sec pro_flex_sec" data-aos="fade-up" data-aos-duration="2500">
-      <div class="exploreTitle exploreTitle-lg">
-        <h3>ES 300h Exquisite <span>Hybrid Electric</span></h3>
-        <div class="priceRight">From  INR 64,00,000</div>
-      </div>
-      <div class="exploreDataSec">
-        <div class="flex_image_div"> <img class="w-100" src="{{asset('assets/images/details/car1.png')}}"> </div>
-        <div class="exploreTitle exploreTitle-sm"> <span>Hybrid Electric</span>
-          <div class="priceRight">From  INR 64,00,000</div>
-        </div>
-        <div class="flex_content_div">
-          <div class="exploreFeatureSec d-flex flex-fill">
-            <div class="exploreFeature"> <span>160 kW</span> Power </div>
-            <div class="exploreFeature"> <span>8.9 sec</span> Acceleration (0-100 km/h) </div>
-            <div class="exploreFeature"> <span>180 km/h</span> Max Speed </div>
-          </div>
-          <div class="exploreCTA"> <a class="line_btn line_btn_dark" href="">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
-            <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
-            </svg></a> </div>
-        </div>
-      </div>
-    </div>
-    <div class="flex_sec pro_flex_sec" data-aos="fade-up" data-aos-duration="2500">
-      <div class="exploreTitle exploreTitle-lg">
-        <h3>ES 300h Luxury <span>Hybrid Electric</span></h3>
-        <div class="priceRight">From  INR 69,70,000</div>
-      </div>
-      <div class="exploreDataSec">
-        <div class="flex_image_div"> <img class="w-100" src="{{asset('assets/images/details/car1.png')}}"> </div>
-        <div class="exploreTitle exploreTitle-sm"> <span>Hybrid Electric</span>
-          <div class="priceRight">From  INR 69,70,000</div>
-        </div>
-        <div class="flex_content_div">
-          <div class="exploreFeatureSec d-flex flex-fill">
-            <div class="exploreFeature"> <span>160 kW</span> Power </div>
-            <div class="exploreFeature"> <span>8.9 sec</span> Acceleration (0-100 km/h) </div>
-            <div class="exploreFeature"> <span>180 km/h</span> Max Speed </div>
-          </div>
-          <div class="exploreCTA"> <a class="line_btn line_btn_dark" href="">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
-            <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
-            </svg></a> </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="explorevehicle_section">
+<div class="container" data-aos="fade-up" data-aos-duration="2500">
+<div class="row">
+<div class="col-lg-12 ">
+<h2> EXPLORE YOUR ES</h2>
+</div>
+</div>
+</div>
+ 
+    @if(count($variants)>0)
+    @foreach($variants as $vari)
+<div class="flex_sec pro_flex_sec" data-aos="fade-up" data-aos-duration="2500">
+<div class="exploreTitle exploreTitle-lg">
+<h3>{{$vari['title']}} <span>{{$vari['sub_title']}}</span></h3>
+<div class="priceRight">From  INR {{$vari['price']}}</div>
+</div>
+<div class="exploreDataSec">
+<div class="flex_image_div"> <img class="w-100" src="{{asset($vari['image'])}}"> </div>
+<div class="exploreTitle exploreTitle-sm"> <span>{{$vari['sub_title']}}</span>
+<div class="priceRight">From  INR {{$vari['price']}}</div>
+</div>
+<div class="flex_content_div">
+<div class="exploreFeatureSec d-flex flex-fill">
+<?php  $values = explode(',', $vari['specifications']); ?>
+            @if(count($values)>0)
+            @foreach($values as $val)
+<?php  $newVari=explode('|', $val); ?>
+            @if(count($newVari)>0)
+<div class="exploreFeature"> <span>{{$newVari[1]}}</span>{{$newVari[0] }}</div>
+            @endif
+            @endforeach
+            @endif
+</div>
+<div class="exploreCTA"> <a class="line_btn line_btn_dark" href="">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+<path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
+</svg></a> </div>
+</div>
+</div>
+</div>
+    @endforeach
+    @endif
+</section>
   
   <!-----gallery with scroll start------>
   
   <section class="gallery_section sec_padding" data-aos="fade-up" data-aos-duration="2500">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h2 class="text-white">Gallery</h2>
-        </div>
-        <div class="col-12">
-          <ul class="nav nav-pills mb-3 tabHead" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">All</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="pills-exterior-tab" data-bs-toggle="pill" data-bs-target="#pills-exterior" type="button" role="tab" aria-controls="pills-exterior" aria-selected="false">Exterior</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="pills-interior-tab" data-bs-toggle="pill" data-bs-target="#pills-interior" type="button" role="tab" aria-controls="pills-interior" aria-selected="false">Interior</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
-              <div class="custom-nav ms-auto">
-                <button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
-                <button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
-              </div>
-              <div class="owl-carousel gallery_carousel owl-theme">
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="{{asset('assets/images/details/gallery/gallery1.webp')}}" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery1-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="{{asset('assets/images/details/gallery/gallery2.webp')}}" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery2-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery3.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery3-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery4.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery4-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery5.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery5-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery6.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery6-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery7.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery7-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="gallery_block">
-                    <div class="gallery_blockinner"> <a href="assets/images/details/gallery/gallery8.webp" data-fancybox="images" data-caption="My caption"> <img src="assets/images/details/gallery/gallery8-sm.webp"/> </a> </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="pills-exterior" role="tabpanel" aria-labelledby="pills-exterior-tab" tabindex="0">02</div>
-            <div class="tab-pane fade" id="pills-interior" role="tabpanel" aria-labelledby="pills-interior-tab" tabindex="0">03</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="container-fluid">
+<div class="row">
+<div class="col-12 text-center">
+<h2 class="text-white">Gallery</h2>
+</div>
+<div class="col-12">
+<ul class="nav nav-pills mb-3 tabHead" id="pills-tab" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">All</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="pills-exterior-tab" data-bs-toggle="pill" data-bs-target="#pills-exterior" type="button" role="tab" aria-controls="pills-exterior" aria-selected="false">Exterior</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="pills-interior-tab" data-bs-toggle="pill" data-bs-target="#pills-interior" type="button" role="tab" aria-controls="pills-interior" aria-selected="false">Interior</button>
+</li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+<div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
+<div class="custom-nav ms-auto">
+<button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
+<button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
+</div>
+<div class="owl-carousel gallery_carousel owl-theme">
+                @if(count($gallery_all)>0)
+                @foreach($gallery_all as $all)
+<div class="item">
+<div class="gallery_block">
+<div class="gallery_blockinner"> <a href="{{asset($all['image_url'])}}" data-fancybox="images" data-caption="My caption"> <img src="{{asset($all['image_url'])}}"/> </a> </div>
+</div>
+</div>
+                @endforeach
+                @endif
+
+</div>
+</div>
+<div class="tab-pane fade" id="pills-exterior" role="tabpanel" aria-labelledby="pills-exterior-tab" tabindex="0">
+<div class="custom-nav ms-auto">
+<button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
+<button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
+</div>
+<div class="owl-carousel gallery_carousel owl-theme">
+               @if(count($gallery_ex)>0)
+                @foreach($gallery_ex as $ex)
+<div class="item">
+<div class="gallery_block">
+<div class="gallery_blockinner"> <a href="{{asset($ex['image_url'])}}" data-fancybox="images" data-caption="My caption"> <img src="{{asset($ex['image_url'])}}"/> </a> </div>
+</div>
+</div>
+                @endforeach
+                @endif
+</div>
+</div>
+<div class="tab-pane fade" id="pills-interior" role="tabpanel" aria-labelledby="pills-interior-tab" tabindex="0">
+<div class="custom-nav ms-auto">
+<button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
+<button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
+</div>
+<div class="owl-carousel gallery_carousel owl-theme">
+               @if(count($gallery_in)>0)
+                @foreach($gallery_in as $in)
+<div class="item">
+<div class="gallery_block">
+<div class="gallery_blockinner"> <a href="{{asset($in['image_url'])}}" data-fancybox="images" data-caption="My caption"> <img src="{{asset($in['image_url'])}}"/> </a> </div>
+</div>
+</div>
+                @endforeach
+                @endif
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
   
   <!-----gallery with scroll ends------> 
   
   <!-----features accordion start------>
   
   <section class="features_section " data-aos="fade-up" data-aos-duration="2500">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h2>ES Features</h2>
-        </div>
-        <div class="col-12">
-          <div class="accordion featureAccordion" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Conquer the Road </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="{{asset('assets/images/details/feature-image1.webp')}}" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p>A proprietary Lexus method is used to produce highly rigid rear suspension-member braces. This allows for superior steering stability and a linear driving sensation even when performing high-speed lane changes.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Elegance Meets Style </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image2.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p>The ES has a sharp, elegant appearance with a newly designed front grille, slender headlamp units, and stylish wheels. Adding a touch of class are our specially developed colors – Sonic Iridium and Sonic Chrome. These body paints offer the ES a metallic, high-gloss finish.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> Hands-Free Power Back Door </button>
-              </h2>
-              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image3.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> Even if both hands are full, when carrying the Electronic Key you
-                        can open and close the trunk lid automatically by moving your foot under the rear bumper and out again. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> A Luxurious Cabin </button>
-              </h2>
-              <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image4.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> Our <em>takumi</em> craftsmen have made the interior of the ES a tranquil space. Elevating the design is a luxurious walnut material finish and intricate hairline ornamentation that is etched one at a time using a laser. These artistic elements work together to create a serene ambience. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"> Total Control </button>
-              </h2>
-              <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image5.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> We gave the brake pedal an expanded surface area to increase the contact area for your foot. The lateral rigidity of the pedal has also been enhanced. Together, these upgrades improve your sense of stability when braking. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"> Optimal Rear Cabin Experience </button>
-              </h2>
-              <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image6.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p>The ventilated seats, Lexus climate concierge and reclining rear seats make your ride more comfortable and luxurious. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> Innovative Infotainment System </button>
-              </h2>
-              <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image7.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> Surround your senses with the all new 31.24 cm (12.3 inch) touch-screen display made of glass for improved visibility and positioned at a perfect angle and optimum distance for easy access, wireless charging tray, 17-speaker Mark Levinson Premium Surround Sound System. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight"> Smartphone Connectivity (Apple Carplay & Android Auto) </button>
-              </h2>
-              <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image8.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> While on the road, seamlessly access dedicated smartphone features on the large, high-res display. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsenine" aria-expanded="false" aria-controls="collapsenine"> Nanoe-X <sup>TM</sup> </button>
-              </h2>
-              <div id="collapsenine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0"> <img src="assets/images/details/feature-image9.webp" alt="..."> </div>
-                    <div class="flex-grow-1 ms-3">
-                      <p> The climate control system integrates advanced nanoe-X
-                        technology, which releases microscopic, negatively-charged
-                        “nanoe-X” particles, helping to purify the cabin air
-                        and effectively deodorize the seats and upholstery. </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="container">
+<div class="row">
+<div class="col-12">
+<h2>ES Features</h2>
+</div>
+<div class="col-12">
+<div class="accordion featureAccordion" id="accordionExample">
+ 
+            @if(count($features)>0)
+            @foreach ($features as $indexs => $feature)
+<div class="accordion-item  {{ $indexs === 0 ? 'featureAccordion' : '' }}" >
+<h2 class="accordion-header">
+<button class="accordion-button  {{ $indexs === 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$indexs}}" aria-expanded="{{ $indexs === 0 ? 'true' : 'false' }}" aria-controls="collapse{{$indexs}}"> {{$feature['title']}} </button>
+</h2>
+<div id="collapse{{$indexs}}" class="accordion-collapse collapse {{ $indexs === 0 ? 'show' : '' }}" data-bs-parent="#accordionExample">
+<div class="accordion-body">
+<div class="d-flex align-items-center">
+<div class="flex-shrink-0"> <img src="{{asset($feature['image_url'])}}" alt="..."> </div>
+<div class="flex-grow-1 ms-3">
+<p>{{$feature['description']}}</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+            @endforeach
+            @endif
+
+</div>
+</div>
+</div>
+</div>
+</section>
   
   <!-----features accordion ends------> 
   

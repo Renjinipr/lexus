@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Logs;
 use App\Models\Model;
 use App\Models\ModelImages;
+use App\Models\Variants;
 use Illuminate\Support\Facades\Session;
 
 
@@ -316,6 +317,7 @@ class ModelManagementController extends BaseController
     try {
         $save_data = new Model(); 
         $save_data['model_id'] = ucwords(strtoupper($request->model_id));
+        $save_data['slug'] =  Str::slug($request->model_id);
         $save_data['description'] = $request->description;
         $save_data['status'] = $request->status;
         $save_data['banner_text'] = $request->banner_text;
@@ -511,5 +513,74 @@ public function delete(Request $request)
 
     if ($flag == 1)
       return $this->redirect('notfound', 'error');
+  }
+
+  public function variants($id)
+  {
+    return view($this->views . '.variants')->with(array('id' => $id));
+  }
+ 
+  public function variantsStore(Request $request) {
+    $data = Input::all();
+    $validator = Validator::make(
+    $data,
+    [
+ 
+    'banner' => 'required|max:4096',
+    'title' => 'required|unique:variants|string|max:255',
+    'sub_title' => 'required',
+    'price' => 'required',
+    'status'=>'required',
+    'specification.*' => 'required|max:150', 
+    'specific_value.*' => 'required|max:150', 
+    ],
+    [
+    ]
+    );
+ 
+ 
+    if ($validator->fails()) {
+        return redirect()->back()->withInput()->withErrors($validator->errors());
+    }
+        // Process specifications if provided
+    if ($request->has('specification') && $request->has('specific_value')) {
+        $specification = $request->input('specification');
+        $specific_value = $request->input('specific_value');
+ 
+        $combined = [];
+        foreach ($specification as $index => $spec) {
+            $value = $specific_value[$index] ?? '';
+            $combined[] = $spec . '|' . $value;
+        }
+ 
+        $formattedSpecifications = implode(',', $combined);
+    } else {
+        $formattedSpecifications = "";
+    }
+ 
+       if ($request->hasFile('banner')) {
+      $brochure = $request->file('banner');
+      $extension = $brochure->getClientOriginalExtension();
+      $brochure_name = $request->model_id.'-'.$brochure->getClientOriginalName();
+      $brochure_path = 'uploads/variants/' . $brochure_name; 
+      $brochure->move(public_path('uploads/variants/'), $brochure_name);
+      $brochurePath =$brochure_path;
+    }
+ 
+    // Create a new instance of the Variants model
+    $variant = new Variants();
+    $variant->model_id = $data['model_id'];
+    $variant->image = $brochurePath;
+    $variant->title = $data['title'];
+    $variant->sub_title = $data['sub_title'];
+    $variant->price = $data['price'];
+    $variant->status = $data['status'];
+    $variant->specifications = $formattedSpecifications;
+ 
+    // Save the variant to the database
+    $variant->save();
+ 
+ 
+return redirect()->to('admin/model_management')->with('success', 'Data uploaded successfully');
   }
 }
