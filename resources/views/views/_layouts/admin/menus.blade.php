@@ -4,7 +4,7 @@
             <a href="{{ url('admin/dashboard') }}" class="site_title">
                 <!--<i class="fa fa-desktop border-0"></i>-->
                 <span class="logo-dashboard"><img src="{{asset('assets/images/newlogo.jpg')}}" alt=""></span>
-                <span class="logo-dashboard logo-small"><img src="{{ asset('production/images/logo-small.svg') }}"
+                <span class="logo-dashboard logo-small"><img src="{{ asset('img/favicon.png') }}"
                         alt=""></span>
             </a>
         </div>
