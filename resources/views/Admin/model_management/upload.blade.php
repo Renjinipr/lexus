@@ -72,12 +72,24 @@
                                         <!-- <span>Upload upto 1 file</span>  -->
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>                         
                             <div class="galleryImage_error error" style="display: none;"></div>
                             @if($errors->has('galleryImage'))
                                 <div class="alert alert-danger">{{ $errors->first('galleryImage') }}</div>
                             @endif
                             <div id="galleryImageThumbnailPlaceholder" class="thumbnail"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                        {!! Form::label('gallery_type', 'Gallery Type:') !!}               
+                            {{ Form::select('gallery_type', [
+                                    '1' => 'All',
+                                    '2' => 'Exterior',
+                                    '3' => 'Interior',
+                                    ],old('gallery_type'),['class' => ' form-control','id'=>'gallery_type']
+                                    ) }}
+                            <span  class="text-danger error" style="color:#e03b3b" id="gallery_type_error">{{ $errors->first('gallery_type') }}</span>               
                         </div>
                     </div>
                 </div>

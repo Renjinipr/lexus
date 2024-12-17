@@ -52,10 +52,6 @@ class HomeController extends Controller {
  
   }
 
-  // public function EnquireUs() {
-  //   return view('enquire_us');
-  // }
-
     public function enquiry(Request $request){
       $data=$request->all();
       $validator = Validator::make(
@@ -78,9 +74,12 @@ class HomeController extends Controller {
   ]);
 
   if ($validator->fails()) {
-    return redirect()->back()->withInput()->withErrors($validator->errors());
-  } else {
-    
+    return response()->json(['errors' => $validator->errors()]);
+  }
+  return $this->_enquiry($request);
+}
+
+public function _enquiry($request) {
     if($request->courtesy_title == "option1") {
       $courtesy_title = 1;
     } else if($request->courtesy_title == "option2") {
@@ -102,8 +101,8 @@ class HomeController extends Controller {
       $data['message'] = $request->message;
 
       $data->save();
-      }
-      return redirect()->back()->with('success', 'You have submitted your enquiry successfully!');
+      
+      return response()->json(['success' => 'You have submitted your enquiry successfully!']);
   }
 }
 

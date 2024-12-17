@@ -1,40 +1,12 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lexus Details</title>
-<link rel="shortcut icon" href="favicon.png">
-<!-- Common css -->
-<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/viewport.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
-<!-- font -->
-<link rel="stylesheet" href="{{asset('assets/font/stylesheet.css')}}">
-<!-- owl carousel -->
+@extends('layouts.default')
+@section('content-area')
+@section('meta_title')
+   
+   {{  "Lexus Details" }}
+
+@stop
 <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/bootstrap-icons.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/jquery.fancybox.min.css')}}">
-<!-- animation -->
-<link href="assets/css/aos.css" rel="stylesheet">
-</head>
-
-<body class="d-flex flex-column h-100">
-
-<!-----header start------>
-
-<header class="fixed-top" id="banner">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <nav class="navbar navbar-expand-lg p-0 main-navigation"> 
-          <!--  Show this only on mobile to medium screens  --> 
-          <a class="navbar-brand logo" href="#"> <img src="{{asset('assets/images/lexus-logo.svg')}}" class="img-fluid" alt="logo" width="" /> </a> </nav>
-      </div>
-    </div>
-  </div>
-</header>
 
 <!-----header end------> 
 
@@ -48,12 +20,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form action="{{ route('enquiry') }}" method="POST">
+      <form action="{{ route('enquiry') }}" id="enquiry-form" method="POST">
         @csrf
           <div class="enquirySec">
-            <div class="enquiryImg"> <img src="assets/images/enquiry-image.webp"/> </div>
+            <div class="enquiryImg"> <img src="{{asset('assets/images/enquiry-image.webp')}}"/> </div>
             <div class="enquiryForm">
               <h1 class="modal-title" id="staticBackdropLabel">Make an Enquiry</h1>
+              <div id="success-message" class="alert alert-success" style="display: none; color: green;"></div>
               <p>Feel free to contact with us, we would love to assist you</p>
               <div class="enquiryFormBlock">
                 <div class="chooseCheck">
@@ -69,6 +42,7 @@
                     {!! Form::radio('courtesy_title', 'option3', old('courtesy_title') == 'option3', ['class' => 'form-check-input', 'id' => 'inlineRadio3']) !!}
                     {!! Form::label('inlineRadio3', 'Ms.', ['class' => 'form-check-label']) !!}
                   </div>
+                  <span  class="text-danger error" style="color:#e03b3b" id="courtesy_title_error">{{ $errors->first('courtesy_title') }}</span> 
                 </div>
                 {!! Form::hidden('model_id', old('model_id', $model->id), array('class'=>'form-control', 'id'=>'model_id','placeholder'=>'')) !!}
                 <div class="row formBlock">
@@ -124,7 +98,7 @@
                 </div>
                 <div class="row formBlock">
                   <div class="col-lg-12 text-end">
-                    <button type="submit" class="primaryBtn">Submit</button>
+                  <button type="button" id="submit-enquiry" class="primaryBtn">Submit</button>
                   </div>
                 </div>
               </div>
@@ -143,7 +117,7 @@
       <div class="col-lg-12 ">
         <div class="detailTitle">
           <h2>THE  LEXUS <span class="f_bold">ES</span> SERIES</h2>
-          <a class="line_btn" href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+          <a class="line_btn" href="" data-bs-toggle="modal" onclick=appendModel() data-name="{{ $model['model_id'] }}" data-bs-target="#staticBackdrop">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
           <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
           </svg></a> </div>
       </div>
@@ -215,7 +189,7 @@
             @endforeach
             @endif
 </div>
-<div class="exploreCTA"> <a class="line_btn line_btn_dark" href="">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+<div class="exploreCTA"> <a class="line_btn line_btn_dark" href="" onclick=appendModel() data-bs-toggle="modal" data-name="{{ $vari['sub_title'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
 <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
 </svg></a> </div>
 </div>
@@ -346,44 +320,27 @@
   <!-----features accordion ends------> 
   
   <!-----contact us start------>
-  
-  <section class="homecontact_section"  >
-    <div class="container-fluid">
-      <div class="row d-flex">
-        <div class="col-lg-6"> <img class="w-100 lexusimgLeft" src="{{asset('assets/images/lexus-left-image.webp')}}"/> </div>
-        <div class="col-lg-6">
-          <div class="lexusContact" data-aos="fade-up" data-aos-duration="2500">
-            <div class="addressTitle">We are in Kochi, Visit Us</div>
-            <div class="address"> <span>Lexus Kochi</span> Nippon Motor Corporation Pvt.Ltd<br>
-              Nippon Towers, NH544, <br>
-              HMT Junction, South Kalamassery, <br>
-              Kochi - 683104, Kerala, India </div>
-            <div class="contact"> <a href="">0484-7170000</a></div>
-            <div class="email"> <a href="">contact@lexuskochi.co.in</a></div>
-            <div class="socialMediaSection"> <span>Join us on</span>
-              <div class="socialMediaBlock">
-                <div class="socialMedia"> <a href=""> <img src="assets/images/Facebook.svg" /> <span>Facebook</span> </a> </div>
-                <div class="socialMedia"> <a href=""> <img src="assets/images/Instagram.svg" /> <span>Instagram</span> </a> </div>
-                <div class="socialMedia"> <a href=""> <img src="assets/images/Youtube.svg" /> <span>Youtube</span> </a> </div>
-              </div>
-            </div>
-          </div>
-          <div class="lexusMap" data-aos="fade-up" data-aos-duration="2500">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15714.243560804638!2d76.3207408!3d10.0530464!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080dbad294caf9%3A0x725531a46bcef5bb!2sLexus%20Kochi!5e0!3m2!1sen!2sin!4v1732022228738!5m2!1sen!2sin" width="100%" height="540" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-----contact us end------> 
-  
-</div>
-</body>
 
-<!-- Common script -->
-<script src="{{asset('assets/js/jquery-3.3.1.min.js')}}"></script>
-<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+  @endsection
+
+  <script>
+  function appendModel() {
+  const carouselInner = document.querySelector('.carousel-inner');
+  
+    if (event.target.id === 'enquiryButton') {
+        const enquiryButton = event.target;
+        const modelName = enquiryButton.getAttribute('data-name');
+        const vehicleModelInput = document.getElementById('vehicle_model');
+        vehicleModelInput.value = modelName;
+    }
+
+  }
+
+</script>
+
+@section('footer-assets')
+
+  @parent
 <script>
 var myCarousel = document.querySelector('#carouselInner')
 var carousel = new bootstrap.Carousel(carouselInner, {
@@ -391,29 +348,7 @@ var carousel = new bootstrap.Carousel(carouselInner, {
   pause: false 
 })
 </script>
-
-<!-- animation -->
-<script src="assets/js/aos.js"></script>
-<script>
-AOS.init();
-</script>
-
-<!-- owl carousel -->
 <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('assets/js/jquery.fancybox.min.js')}}"></script>
-<!-- custom -->
-<script src="{{asset('assets/js/custom.js')}}"></script>
-<!-- header shrink -->
-<script>
-$(document).on("scroll", function(){
-  if
-    ($(document).scrollTop() > 86){
-    $("#banner").addClass("shrink");
-  }
-  else
-  {
-    $("#banner").removeClass("shrink");
-  }
-});	
-</script>
-</html>
+
+@endsection

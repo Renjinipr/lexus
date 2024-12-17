@@ -13,6 +13,7 @@ use App\Models\Logs;
 use App\Models\Model;
 use App\Models\ModelImages;
 use App\Models\Variants;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\Session;
 
 
@@ -362,7 +363,8 @@ class ModelManagementController extends BaseController
 
   public function storeCarImages(Request $request) {
     $rules = [
-      'bannerImage' => 'required|max:4096'
+      'galleryImage' => 'required|max:4096',
+      'gallery_type' => 'required'
     ];
 
     $validator = Validator::make($request->all(), $rules);
@@ -391,8 +393,14 @@ class ModelManagementController extends BaseController
         $filename = $timestamp . '_' . Str::random(10) . '_galleryImage.' . $extension;
         $image->move(public_path('uploads/model_images'), $filename);
         $filenames['galleryImage'][] = $filename;
+        $galleryImage = new Gallery;
+        $galleryImage->model_id = $model_id;
+        $galleryImage->image_url = $filename;
+        $galleryImage->type = $request->gallery_type;
+        $galleryImage->status = 1;
+        $galleryImage->save();
       }
-      $modelImages->gallery_image = implode(', ', $filenames['galleryImage']);
+      // $modelImages->gallery_image = implode(', ', $filenames['galleryImage']);
     }
     if($request->file('featureImage')) {
       foreach($request->file('featureImage') as $image) {
@@ -403,6 +411,7 @@ class ModelManagementController extends BaseController
       }
       $modelImages->feature_image = implode(', ', $filenames['featureImage']);
     }
+
     if($is_exist) {
       $modelImages->update();
     } else {
