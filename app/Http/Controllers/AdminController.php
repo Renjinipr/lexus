@@ -52,7 +52,7 @@ class AdminController extends Controller
             $data['error'] = 'Please activate your account';
           } else {
 
-                return redirect()->intended('/admin/dashboard');
+                return redirect()->intended('/admin/enquiries');
         
           }
         } else {
