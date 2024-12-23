@@ -169,11 +169,4 @@ header{ background: #000; padding:15px 0;box-shadow: 0px 15px 50px 0px rgba(7,13
 footer{ position: relative;}
 /***transitions***/
 .btn, .gallery_blockinner img{-moz-transition: all 0.3s ease-in-out;-o-transition: all 0.3s ease-in-out;-webkit-transition: all 0.3s ease-in-out;transition: all 0.3s ease-in-out;}
-
-
-
-
-  
-
-
-
+.feature_image_w{width: 500px;}
