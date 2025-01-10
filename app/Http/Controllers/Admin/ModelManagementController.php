@@ -15,7 +15,7 @@ use App\Models\ModelImages;
 use App\Models\Variants;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\Features;
 
 class ModelManagementController extends BaseController
 {
@@ -268,13 +268,13 @@ class ModelManagementController extends BaseController
       [
 
     'model_id' => 'required|unique:model|string|max:255',
+    'short_name'=>'required',
     'description' => 'required',
     'banner_text' => 'required',
     'price' => 'required',
     'banner_image' => 'required|image',
     'brochure' => 'required',
     'status' => 'required',
-    // 'specification' => 'required'
       ],
       [
    
@@ -306,7 +306,6 @@ class ModelManagementController extends BaseController
       $banner_image->move(public_path('uploads/banner_image/'), $banner_image_name);
       $bannerImagePath =$banner_image_path;
     }
-    $specification = implode(' | ', $request->specification);
     if(isset($request->featured)) {
       $featured = 1;
     } else {
@@ -319,12 +318,12 @@ class ModelManagementController extends BaseController
         $save_data = new Model(); 
         $save_data['model_id'] = ucwords(strtoupper($request->model_id));
         $save_data['slug'] =  Str::slug($request->model_id);
+        $save_data['short_name'] =  Str::slug($request->short_name);
         $save_data['description'] = $request->description;
         $save_data['status'] = $request->status;
         $save_data['banner_text'] = $request->banner_text;
         $save_data['price'] = $request->price;
         $save_data['featured'] = $featured;
-        $save_data['specification'] = $specification;
         $save_data['brochure'] = $brochurePath;
         $save_data['banner_image'] = $bannerImagePath;
         if(isset($request->status)) {
@@ -352,10 +351,9 @@ class ModelManagementController extends BaseController
   {
 
     $obj = $this->model->where('id', $id)->first();
-    $specifications = explode(' | ', $obj->specification);
 
     if ($obj) {
-      return view($this->views . '.form')->with(array('obj' => $obj, 'specifications' => $specifications));
+      return view($this->views . '.form')->with(array('obj' => $obj));
     } else {
       return $this->redirect('notfound', 'error');
     }
@@ -371,54 +369,41 @@ class ModelManagementController extends BaseController
 
     if($validator->fails()) {
       return redirect()->back()->withErrors($validator)->withinput();
-    } else {
+    } 
+    else 
+    {
       $timestamp = now()->format('YmdHis');
-
-      foreach($request->file('bannerImage') as $image) {
-        $extension = $image->getClientOriginalExtension();
-        $filename = $timestamp . '_' . Str::random(10) . '_bannerImage.' . $extension;
-        $image->move(public_path('uploads/model_images'), $filename);
-        $filenames['bannerImage'][] = $filename;
+      $model_id = $request->model_id;
+      if($request->file('bannerImage')) {
+        foreach($request->file('bannerImage') as $image) {
+          $image_name_ = $image->getClientOriginalName();
+          $filename = $timestamp . '_' . Str::random(5) . '_banner_' . $image_name_;
+          $filepath = 'uploads/model_images/' . $filename;
+          $image->move(public_path('uploads/model_images'), $filename);
+          $modelImages = new ModelImages;
+          $modelImages->model_id = $model_id;
+          $modelImages->banner_image = $filepath;
+          $modelImages->save();
+        } 
       }
-    }
-    $model_id = $request->model_id;
-    $is_exist = ModelImages::where('model_id', $model_id)->first();
     
-    $modelImages = new ModelImages();
-    $modelImages->model_id = $model_id;
-    $modelImages->banner_image = implode(', ', $filenames['bannerImage']);
-    if($request->file('galleryImage')) {
-      foreach($request->file('galleryImage') as $image) {
-        $extension = $image->getClientOriginalExtension();
-        $filename = $timestamp . '_' . Str::random(10) . '_galleryImage.' . $extension;
-        $image->move(public_path('uploads/model_images'), $filename);
-        $filenames['galleryImage'][] = $filename;
-        $galleryImage = new Gallery;
-        $galleryImage->model_id = $model_id;
-        $galleryImage->image_url = $filename;
-        $galleryImage->type = $request->gallery_type;
-        $galleryImage->status = 1;
-        $galleryImage->save();
+      if($request->file('galleryImage')) {
+        foreach($request->file('galleryImage') as $image) {
+          $image_name = $image->getClientOriginalName();
+          $filename = $timestamp . '_' . Str::random(5) . '_gallery_' . $image_name;
+          $filepath = 'uploads/gallery/' . $filename;
+          $image->move(public_path('uploads/gallery'), $filename);
+          $filenames['galleryImage'][] = $filename;
+          $galleryImage = new Gallery;
+          $galleryImage->model_id = $model_id;
+          $galleryImage->image_url = $filepath;
+          $galleryImage->type = $request->gallery_type;
+          $galleryImage->status = 1;
+          $galleryImage->save();
+        }
       }
-      // $modelImages->gallery_image = implode(', ', $filenames['galleryImage']);
+      return redirect()->back()->with('success', 'Data uploaded successfully');
     }
-    if($request->file('featureImage')) {
-      foreach($request->file('featureImage') as $image) {
-        $extension = $image->getClientOriginalExtension();
-        $filename = $timestamp . '_' . Str::random(10) . '_featureImage.' . $extension;
-        $image->move(public_path('uploads/model_images'), $filename);
-        $filenames['featureImage'][] = $filename;
-      }
-      $modelImages->feature_image = implode(', ', $filenames['featureImage']);
-    }
-
-    if($is_exist) {
-      $modelImages->update();
-    } else {
-      $modelImages->save();
-    }
-
-    return redirect()->back()->with('success', 'Data uploaded successfully');
   }
 
 public function delete(Request $request)
@@ -435,7 +420,9 @@ public function delete(Request $request)
 
   public function upload($id)
   {
-    return view($this->views . '.upload')->with(array('id' => $id));
+    $galleryImages = Gallery::where('model_id', $id)->get(['id','image_url']);
+    $bannerImages = ModelImages::where('model_id', $id)->get(['id','banner_image']);
+    return view($this->views . '.upload')->with(array('id' => $id, 'gallery' => $galleryImages, 'banner_images' => $bannerImages));
   }
 
   public function update($id, Request $request)
@@ -466,35 +453,60 @@ public function delete(Request $request)
 
     if ($obj) {
       $data = Input::all();
+      if ($request->hasFile('banner')) {
+        $banner = $request->file('banner');
+        $banner_name = $request->model_id.'-'.$banner->getClientOriginalName();
+        $banner_path = 'uploads/banner_image/' . $banner_name; 
+        $banner->move(public_path('uploads/banner_image/'), $banner_name);
+        $bannerPath =$banner_path;
+      }
+
       if ($request->hasFile('brochure')) {
         $brochure = $request->file('brochure');
-        $extension = $brochure->getClientOriginalExtension();
         $brochure_name = $request->model_id.'-'.$brochure->getClientOriginalName();
         $brochure_path = 'uploads/brochure/' . $brochure_name; 
         $brochure->move(public_path('uploads/brochure/'), $brochure_name);
         $brochurePath =$brochure_path;
       }
-      $specification = implode(' | ', $request->specification);
+
+      if(!$obj->banner_image) {
+        if($request->hasFile('banner')) {
+          $banner_image = $bannerPath;
+        } else {
+          $banner_image = NULL;
+        }
+      } else {
+          $banner_image = $obj->banner_image;
+      }
+
+      if(!$obj->brochure) {
+        if($request->hasFile('brochure')) {
+          $brochureName = $brochurePath;
+        } else {
+          $brochureName = NULL;
+        }
+      } else {
+          $brochureName = $obj->brochure;
+      }
+
+      if($request->featured == 'on') {
+        $featured = 1;
+      } else {
+        $featured = 0;
+      }
 
       $user = Auth::guard('admin')->user();
 
-      if ($request->hasFile('brochure')) {
         $this->update_data('Model', array('id' => $id), array(
             'model_id' => $data['model_id'],
             'description' => $data['description'],
+            'price' => $data['price'],
+            'featured' => $featured,
             'status' => $data['status'],
-            'specification' => $specification,
-            'brochure' => $brochurePath
+            'brochure' => $brochureName,
+            'banner_image' => $banner_image
         ));
-      } else {
-        $this->update_data('Model', array('id' => $id), array(
-          'model_id' => $data['model_id'],
-          'description' => $data['description'],
-          'status' => $data['status'],
-          'specification' => $specification,
-      ));
-      }
-  
+      
    $log_arr = array('user_id'=>Auth::guard('admin')->user()->id,
                              'module'=>'Model Management',
                              'action'=> Auth::guard('admin')->user()->name."Model Updated"
@@ -507,89 +519,74 @@ public function delete(Request $request)
     }
   }
 
-  public function serviceRequestDelete(Request $request)
-  {
-
-    $flag = 0;
-    $obj = $this->model->find($request->id);
-    if ($obj) {
-
-      ServiceRequest::where('id', $request->id)->delete();
-
-      return $this->redirect('Deleted Successfully.');
-    } else
-      $flag = 1;
-
-    if ($flag == 1)
-      return $this->redirect('notfound', 'error');
-  }
-
   public function variants($id)
   {
     return view($this->views . '.variants')->with(array('id' => $id));
   }
  
-  public function variantsStore(Request $request) {
-    $data = Input::all();
-    $validator = Validator::make(
-    $data,
-    [
- 
-    'banner' => 'required|max:4096',
-    'title' => 'required|unique:variants|string|max:255',
-    'sub_title' => 'required',
-    'price' => 'required',
-    'status'=>'required',
-    'specification.*' => 'required|max:150', 
-    'specific_value.*' => 'required|max:150', 
-    ],
-    [
-    ]
-    );
- 
- 
-    if ($validator->fails()) {
-        return redirect()->back()->withInput()->withErrors($validator->errors());
-    }
-        // Process specifications if provided
-    if ($request->has('specification') && $request->has('specific_value')) {
-        $specification = $request->input('specification');
-        $specific_value = $request->input('specific_value');
- 
-        $combined = [];
-        foreach ($specification as $index => $spec) {
-            $value = $specific_value[$index] ?? '';
-            $combined[] = $spec . '|' . $value;
+  public function features($id)
+  {
+    return view($this->views . '.features')->with(array('id' => $id));
+  }
+    
+  public function removeFile(Request $request)
+  {
+    $fileType = $request->input('file_type');
+    $fileId = $request->input('file_id');
+    $obj = Model::find($fileId);
+    
+    if($obj) {
+        $filePath = '';
+
+        if($fileType == 'banner') {
+            $filePath = public_path($obj->banner_image);
+            $obj->banner_image = null;
+        } elseif($fileType == 'brochure') {
+            $filePath = public_path($obj->brochure);
+            $obj->brochure = null;
         }
- 
-        $formattedSpecifications = implode(',', $combined);
-    } else {
-        $formattedSpecifications = "";
+
+        if(file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        $obj->save();
+
+        return response()->json(['success' => true]);
     }
- 
-       if ($request->hasFile('banner')) {
-      $brochure = $request->file('banner');
-      $extension = $brochure->getClientOriginalExtension();
-      $brochure_name = $request->model_id.'-'.$brochure->getClientOriginalName();
-      $brochure_path = 'uploads/variants/' . $brochure_name; 
-      $brochure->move(public_path('uploads/variants/'), $brochure_name);
-      $brochurePath =$brochure_path;
+    return response()->json(['success' => false]);
+  }
+  public function removeGalleryImage(Request $request)
+  {
+    $fileType = $request->input('file_type');
+    $fileId = $request->input('file_id');
+    if($fileType == 'gallery') {
+      $obj = Gallery::find($fileId);
     }
- 
-    // Create a new instance of the Variants model
-    $variant = new Variants();
-    $variant->model_id = $data['model_id'];
-    $variant->image = $brochurePath;
-    $variant->title = $data['title'];
-    $variant->sub_title = $data['sub_title'];
-    $variant->price = $data['price'];
-    $variant->status = $data['status'];
-    $variant->specifications = $formattedSpecifications;
- 
-    // Save the variant to the database
-    $variant->save();
- 
- 
-return redirect()->to('admin/model_management')->with('success', 'Data uploaded successfully');
+    else if($fileType == 'banner') {
+      $obj = ModelImages::find($fileId);
+    }
+    
+    if($obj) {
+        $filePath = '';
+
+        if($fileType == 'gallery') {
+            $filePath = public_path($obj->image_url);
+            if(file_exists($filePath)) {
+              unlink($filePath);
+            }
+            $obj->delete();
+        }
+        else if($fileType == 'banner') {
+          $filePath = public_path($obj->banner_image);
+            if(file_exists($filePath)) {
+              unlink($filePath);
+            }
+            $obj->delete();
+        }
+
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false]);
   }
 }

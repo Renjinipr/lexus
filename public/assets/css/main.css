@@ -5,7 +5,7 @@ ul { margin: 0; padding: 0; }
 li { list-style: none; }
 /** ============ COMMON STYLES ============**/
 h1 { font-size: 66px;     font-family: 'nobelbold'; }
-h2 { font-size: 60px;  font-family: 'nobelbook'; margin-bottom: 0;  }
+h2 { font-size: 55px;  font-family: 'nobelbook'; margin-bottom: 0;  }
 h3 { font-size: 32px;  font-family: 'nobelbold';}
 h4 { font-size: 48px;  font-family: 'nunito_sansbold';}
 h5 { font-size: 36px;  font-family: 'nunito_sansbold';}
@@ -30,11 +30,11 @@ p { line-height: 32px; font-size: 20px; color: #fff;   font-family: 'nobelbook';
 header{ background: #000; padding:15px 0;box-shadow: 0px 15px 50px 0px rgba(7,13,22,.1);}
 /***============ slider area ============***/
 .slider_section .carousel-caption{ text-align: left;   position: absolute;top: 50%;left: 15%;-ms-transform: translate(0%, -50%);transform: translate(0%, -50%); z-index: 99;}
-.slider_section .carousel-caption span{font-size: 30px;}
-.slider_section .carousel-caption h1{ margin-bottom: 25px;line-height: 90px; position: relative; margin-bottom: 40px;}
-.slider_section .carousel-caption h1::before{ position: absolute; content: ''; background: url(../images/lineBtm.svg) no-repeat; height: 1px; width:100% ; bottom: -15px;}
-.slider_section .carousel-caption h5{ font-family: 'nobelbook';font-size: 45px;text-transform: uppercase;line-height: 65px;letter-spacing: 1px; margin-bottom: 30px;}
-.slider_section .carousel-caption p{ font-size: 22px; color:#fff;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span{font-size: 30px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{ margin-bottom: 25px;line-height: 1.6; position: relative; margin-bottom: 40px; font-size: 1.333rem;}
+.slider_section .carousel-caption h1::before, .detail_slider .carousel-caption h1::before{ position: absolute; content: ''; background: url(../images/lineBtm.svg) no-repeat; height: 1px; width:100% ; bottom: -15px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{ font-family: 'nobelbook';font-size: 45px;text-transform: uppercase;line-height: 65px;letter-spacing: 1px; margin-bottom: 30px;}
+.slider_section .carousel-caption p, .detail_slider .carousel-caption p{ font-size: 22px; color:#fff;}
 .slider_section .carousel-indicators{margin-bottom: 3rem;right: 0; left: auto;margin-right: 50px; bottom: 50px;}
 .slider_section .carousel-indicators button{border-radius: 50px !important;border: none; width:17px; height: 17px;}
 .slider_section .carousel-control-next-icon, .slider_section .carousel-control-prev-icon{ margin-top: 60px;}
@@ -126,9 +126,15 @@ header{ background: #000; padding:15px 0;box-shadow: 0px 15px 50px 0px rgba(7,13
 .gallery_block:hover img{transform: scale(1.1);}
 .gallery_section .owl-dots{ display: none;}
 .custom-nav button{ border: none; background: none;}
-.custom-nav{ position: relative; width: 100%; z-index: 99;}
-.custom-nav .owl-prev{ position: absolute; left: 0; top: 180px; }
-.custom-nav .owl-next{ position: absolute; right: 0; top: 180px; }
+/* .custom-nav{ position: relative; width: 100%; z-index: 99;} */
+.custom-nav{
+position: absolute;
+    width: 100%;
+    z-index: 99;
+    top: 50%;
+    margin-top: -50px;}
+.custom-nav .owl-prev{ /*position: absolute; left: 0; top: 180px; */float: left;}
+.custom-nav .owl-next{ /*position: absolute; right: 0; top: 180px; */float: right; }
 .gallery_carousel .owl-stage-outer{ position: relative;}
 .gallery_carousel .owl-stage-outer::before{ position: absolute; content: ''; background: url(../images/shadowLeft.svg); width: 350px; height: 100%;  z-index: 99; left:0; top:0;}
 .gallery_carousel .owl-stage-outer::after{ position: absolute; content: ''; background: url(../images/shadowRight.svg); width: 350px; height: 100%;  z-index: 99; right:0; top:0;}
@@ -170,3 +176,19 @@ footer{ position: relative;}
 /***transitions***/
 .btn, .gallery_blockinner img{-moz-transition: all 0.3s ease-in-out;-o-transition: all 0.3s ease-in-out;-webkit-transition: all 0.3s ease-in-out;transition: all 0.3s ease-in-out;}
 .feature_image_w{width: 500px;}
+.thumbnail {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.carousel_overlay{position: absolute;top: 0;bottom: 0;left: 0;z-index: 1;padding-left: 5%; right: 5%; }
+.trade-mark{font-size: 0.5em;}

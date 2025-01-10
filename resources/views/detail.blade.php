@@ -2,7 +2,7 @@
 @section('content-area')
 @section('meta_title')
    
-   {{  "Lexus Details" }}
+   {{  "Lexus Details|" }} {{$model['model_id']}}
 
 @stop
 <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.min.css')}}">
@@ -44,7 +44,6 @@
                   </div>
                   <span  class="text-danger error" style="color:#e03b3b" id="courtesy_title_error">{{ $errors->first('courtesy_title') }}</span> 
                 </div>
-                {!! Form::hidden('model_id', old('model_id', $model->id), array('class'=>'form-control', 'id'=>'model_id','placeholder'=>'')) !!}
                 <div class="row formBlock">
                   <div class="col-lg-12">
                     <label for="exampleFormControlInput1" class="form-label">Name*</label>
@@ -62,7 +61,7 @@
                     </select>
                   </div>
                   <div class="col-lg-8">
-                  {!! Form::text('phone', old('phone'), array('class'=>'form-control', 'id'=>'phone','placeholder'=>'')) !!}
+                  {!! Form::text('phone', old('phone'), array('class'=>'form-control', 'id'=>'phone','placeholder'=>'','maxlength'=>'13')) !!}
                   <span  class="text-danger error" style="color:#e03b3b" id="phone_error">{{ $errors->first('phone') }}</span>  
                   </div>
                 </div>
@@ -116,18 +115,26 @@
     <div class="row">
       <div class="col-lg-12 ">
         <div class="detailTitle">
-          <h2>THE  LEXUS <span class="f_bold">ES</span> SERIES</h2>
+          <h2> </h2>
           <a class="line_btn" href="" data-bs-toggle="modal" onclick=appendModel() data-name="{{ $model['model_id'] }}" data-bs-target="#staticBackdrop">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
           <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
           </svg></a> </div>
       </div>
       <div class="col-lg-12 ">
-        <div id="carouselInner" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselInner" class="carousel slide detail_slider" data-bs-ride="carousel">
          
           <div class="carousel-inner">
+            <div class="carousel_overlay carousel-caption d-flex align-items-center">
+              <div class="text-start">
+                <h1 class="animated fadeInUp">{{$model['model_id']}}</h1>
+                <h5 class="animated fadeInUp">{{$model['banner_text']}}</h5>
+                <p class="animated fadeInUp">From INR {{$model['price']}}</p>
+              </div>
+            </div>
              @if(count($bannerImagesArray)>0)
           @foreach ($bannerImagesArray as $index => $banner)
-            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"> <img src="{{asset($banner)}}" class="d-block w-100" alt="..."> </div>
+            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">               
+          <img src="{{asset($banner)}}" class="d-block w-100" alt="..."> </div>
               @endforeach
           @endif
           </div>
@@ -144,7 +151,7 @@
         </div>
       </div>
       <div class="col-lg-12 detailContent"  data-aos="fade-up" data-aos-duration="2500">
-        <p> The ES 300h exquisite pairs a 2.5-liter direct injection engine with a powerful, self-charging electric motor to deliver 214 horsepower with maximum fuel efficiency. </p>
+        <p> {{$model['description']}} </p>
         <a class="line_btn" href="{{ asset($model->brochure) }}" download>Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M8 10L7.29289 10.7071L8 11.4142L8.70711 10.7071L8 10ZM9 1C9 0.447715 8.55229 2.42698e-07 8 2.18557e-07C7.44772 1.94416e-07 7 0.447715 7 1L9 1ZM2.29289 5.70711L7.29289 10.7071L8.70711 9.29289L3.70711 4.29289L2.29289 5.70711ZM8.70711 10.7071L13.7071 5.70711L12.2929 4.29289L7.29289 9.29289L8.70711 10.7071ZM9 10L9 1L7 1L7 10L9 10Z" fill="white"/>
         <path d="M1 12L1 13C1 14.1046 1.89543 15 3 15L13 15C14.1046 15 15 14.1046 15 13V12" stroke="white" stroke-width="2"/>
@@ -160,7 +167,7 @@
 <div class="container" data-aos="fade-up" data-aos-duration="2500">
 <div class="row">
 <div class="col-lg-12 ">
-<h2> EXPLORE YOUR ES</h2>
+<h2> EXPLORE YOUR {{$model['short_name']}}</h2>
 </div>
 </div>
 </div>
@@ -169,12 +176,12 @@
     @foreach($variants as $vari)
 <div class="flex_sec pro_flex_sec" data-aos="fade-up" data-aos-duration="2500">
 <div class="exploreTitle exploreTitle-lg">
-<h3>{{$vari['title']}} <span>{{$vari['sub_title']}}</span></h3>
+<h3>{{$vari['title']}} <span><em>{{$vari['sub_title']}}</em></span></h3>
 <div class="priceRight">From  INR {{$vari['price']}}</div>
 </div>
 <div class="exploreDataSec">
 <div class="flex_image_div"> <img class="w-100" src="{{asset($vari['image'])}}"> </div>
-<div class="exploreTitle exploreTitle-sm"> <span>{{$vari['sub_title']}}</span>
+<div class="exploreTitle exploreTitle-sm"> <span><em>{{$vari['sub_title']}}</em></span>
 <div class="priceRight">From  INR {{$vari['price']}}</div>
 </div>
 <div class="flex_content_div">
@@ -189,7 +196,7 @@
             @endforeach
             @endif
 </div>
-<div class="exploreCTA"> <a class="line_btn line_btn_dark" href="" onclick=appendModel() data-bs-toggle="modal" data-name="{{ $vari['sub_title'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+<div class="exploreCTA"> <a class="line_btn line_btn_dark" href="" onclick=appendModel() data-bs-toggle="modal" data-name="{{ $vari['title'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
 <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
 </svg></a> </div>
 </div>
@@ -221,10 +228,13 @@
 </ul>
 <div class="tab-content" id="pills-tabContent">
 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
+<div class="position-relative">
+@if(count($gallery_all)>0)
 <div class="custom-nav ms-auto">
 <button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
 <button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
 </div>
+@endif
 <div class="owl-carousel gallery_carousel owl-theme">
                 @if(count($gallery_all)>0)
                 @foreach($gallery_all as $all)
@@ -238,11 +248,15 @@
 
 </div>
 </div>
+</div>
 <div class="tab-pane fade" id="pills-exterior" role="tabpanel" aria-labelledby="pills-exterior-tab" tabindex="0">
+<div class="position-relative">
+@if(count($gallery_ex)>0)
 <div class="custom-nav ms-auto">
 <button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
 <button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
 </div>
+@endif
 <div class="owl-carousel gallery_carousel owl-theme">
                @if(count($gallery_ex)>0)
                 @foreach($gallery_ex as $ex)
@@ -255,11 +269,15 @@
                 @endif
 </div>
 </div>
+</div>
 <div class="tab-pane fade" id="pills-interior" role="tabpanel" aria-labelledby="pills-interior-tab" tabindex="0">
+<div class="position-relative">
+@if(count($gallery_in)>0)
 <div class="custom-nav ms-auto">
 <button class="owl-prev"> <img src="{{asset('assets/images/details/arrowLeft.svg')}}"/> </button>
 <button class="owl-next"> <img src="{{asset('assets/images/details/arrowRight.svg')}}"/> </button>
 </div>
+@endif
 <div class="owl-carousel gallery_carousel owl-theme">
                @if(count($gallery_in)>0)
                 @foreach($gallery_in as $in)
@@ -276,6 +294,7 @@
 </div>
 </div>
 </div>
+</div>
 </section>
   
   <!-----gallery with scroll ends------> 
@@ -286,7 +305,7 @@
 <div class="container">
 <div class="row">
 <div class="col-12">
-<h2>ES Features</h2>
+<h2>{{$model['short_name']}} Features</h2>
 </div>
 <div class="col-12">
 <div class="accordion featureAccordion" id="accordionExample">
@@ -295,12 +314,16 @@
             @foreach ($features as $indexs => $feature)
 <div class="accordion-item  {{ $indexs === 0 ? 'featureAccordion' : '' }}" >
 <h2 class="accordion-header">
+  @if($feature['title'] == "Nanoe-X")
+  <button class="accordion-button  {{ $indexs === 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$indexs}}" aria-expanded="{{ $indexs === 0 ? 'true' : 'false' }}" aria-controls="collapse{{$indexs}}"> {{$feature['title']}}<sup class="trade-mark">tm</sup></button>
+@else
 <button class="accordion-button  {{ $indexs === 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$indexs}}" aria-expanded="{{ $indexs === 0 ? 'true' : 'false' }}" aria-controls="collapse{{$indexs}}"> {{$feature['title']}} </button>
+@endif
 </h2>
 <div id="collapse{{$indexs}}" class="accordion-collapse collapse {{ $indexs === 0 ? 'show' : '' }}" data-bs-parent="#accordionExample">
 <div class="accordion-body">
 <div class="d-flex align-items-center">
-<div class="flex-shrink-0"> <img src="{{asset($feature['image_url'])}}" alt="..."> </div>
+<div class="flex-shrink-0 mw-100 feature_image_w"> <img src="{{asset($feature['image_url'])}}" class="w-100" alt="..."> </div>
 <div class="flex-grow-1 ms-3">
 <p>{{$feature['description']}}</p>
 </div>

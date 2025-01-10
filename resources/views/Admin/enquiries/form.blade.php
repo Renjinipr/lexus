@@ -79,9 +79,6 @@ label.error {
                
 <div class="row label-display-block">
 <div class="col-md-12 text-right mb-3">
-@if($obj->warranty_period!="" && $obj->warranty_status!="")
-  <button id="export_pdf" type="button" class="btn btn-danger " Title="The PDF export can accommodate a maximum number of 1000 records,CSV is recommended for bulk exports.">Download Warranty Certificate</button>
-@endif
 </div>
 
 @if($obj->id)
@@ -106,26 +103,26 @@ label.error {
                 </div>
                <span  class="text-danger error" style="color:#e03b3b" id="contact_no_error">{{ $errors->first('contact_no') }}</span>               
               </div>
-              <div class="col-md-6 col-lg-4 mb-3">
+              <!-- <div class="col-md-6 col-lg-4 mb-3">
                 <label class="form-label">Email </label>
                 <input type="text"  class="form-control" id="email" name="email" value="{{$obj->email}}">
                 <span  class="text-danger error" style="color:#e03b3b" id="email_error">{{ $errors->first('email') }}</span>               
-              </div>
+              </div> -->
               <div class="col-md-6 col-lg-4 mb-3">
                 <label class="form-label">Model Name <span class="madatory">*</span></label>
                 <input type="text"  class="form-control" id="model_name" name="model_name" value="{{$obj->model_name}}">
                 <span  class="text-danger error" style="color:#e03b3b" id="model_name_error">{{ $errors->first('model_name') }}</span>
               </div>
               <div class="col-md-6 col-lg-4 mb-3">
-                <label class="form-label">District <span class="madatory">*</span></label>
-                <input type="text"  class="form-control" id="district" name="district" value="{{$obj->district}}"> 
-                <span  class="text-danger error" style="color:#e03b3b" id="district_error">{{ $errors->first('district') }}</span>              
+                <label class="form-label">City <span class="madatory">*</span></label>
+                <input type="text"  class="form-control" id="city" name="city" value="{{$obj->city}}"> 
+                <span  class="text-danger error" style="color:#e03b3b" id="city_error">{{ $errors->first('city') }}</span>              
               </div>
-              <div class="col-md-6 col-lg-4 mb-3">
+              <!-- <div class="col-md-6 col-lg-4 mb-3">
                 <label class="form-label">Pincode<span class="madatory">*</span></label>
                     {!! Form::number('pincode', old('pincode'), array('class'=>'form-control', 'id'=>'pincode','placeholder'=>'')) !!} 
                 <span  class="text-danger error" style="color:#e03b3b" id="pincode_error">{{ $errors->first('pincode') }}</span>               
-              </div>
+              </div> -->
               <div class="col-md-6 col-lg-4 mb-3">
                 <label class="form-label">Status </label>                
                 {{ Form::select('status', [
@@ -136,8 +133,8 @@ label.error {
                 <span  class="text-danger error" style="color:#e03b3b" id="status_error">{{ $errors->first('status') }}</span>               
               </div>
               <div class="col-md-6 col-lg-4 mb-3">
-                <label class="form-label">Description <span class="madatory">*</span></label>
-                    {!! Form::textarea('message', old('remarks'), array('class'=>'form-control', 'id'=>'message','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
+                <label class="form-label">Message <span class="madatory">*</span></label>
+                    {!! Form::textarea('message', old('message'), array('class'=>'form-control', 'id'=>'message','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
                 <span  class="text-danger error" style="color:#e03b3b" id="message_error">{{ $errors->first('message') }}</span>               
               </div>
             </div>
@@ -189,9 +186,9 @@ label.error {
           </div>
           
           <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Description<span class="madatory">*</span></label>
-              {!! Form::textarea('description', old('description'), array('class'=>'form-control', 'id'=>'description','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
-            <span  class="text-danger error" style="color:#e03b3b" id="description_error">{{ $errors->first('description') }}</span>               
+            <label class="form-label">Message<span class="madatory">*</span></label>
+              {!! Form::textarea('message', old('message'), array('class'=>'form-control', 'id'=>'message','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
+            <span  class="text-danger error" style="color:#e03b3b" id="message_error">{{ $errors->first('message') }}</span>               
           </div>
           <div class="col-md-6 col-lg-4 mb-3">
                 <label class="form-label">Status </label>                
@@ -217,7 +214,7 @@ label.error {
 
        <div class="row">
             <div class="col-lg-12 text-right">
-            <a href="{{ url('/admin/trade_enquiry/')}}" class="btn  mt-2 btn-secondary">Cancel</a>
+            <a href="{{ url('/admin/enquiries/')}}" class="btn  mt-2 btn-secondary">Cancel</a>
                     <button type="submit" name="button" id="submitBtn" class="btn btn-primary mt-2 mr-1">Submit</button>
             </div>
         </div>

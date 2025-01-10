@@ -60,7 +60,7 @@
                   </select>
                 </div>
                 <div class="col-lg-8">
-                {!! Form::text('phone', old('phone'), array('class'=>'form-control', 'id'=>'phone','placeholder'=>'')) !!} 
+                {!! Form::text('phone', old('phone'), array('class'=>'form-control', 'id'=>'phone','placeholder'=>'','maxlength'=>'13')) !!} 
                 <span  class="text-danger error" style="color:#e03b3b" id="phone_error">{{ $errors->first('phone') }}</span>  
                 </div>
               </div>
@@ -134,7 +134,7 @@
           <h1 class="animated fadeInUp">{{ $model->model_id }}</h1>
           <h5 class="animated fadeInUp col-lg-6">{{ $model->banner_text }}</h5>
           <p class="animated fadeInUp">From INR {{ number_format($model->price) }}</p>
-          <span class="banrCTA" class="animated fadeInUp"> <a href="{{ route('detail', ['slug' => $model['slug']]) }}"  class="btn">Explore {{ $model->model_id }}</a> <a href="" onclick=appendModel() data-bs-toggle="modal" data-id="{{ $model['id'] }}" data-name="{{ $model['model_id'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
+          <span class="banrCTA" class="animated fadeInUp"> <a href="{{ route('detail', ['slug' => $model['slug']]) }}"  class="btn">Explore {{ $model->short_name }}</a> <a href="" onclick=appendModel() data-bs-toggle="modal" data-id="{{ $model['id'] }}" data-name="{{ $model['model_id'] }}" id="enquiryButton" data-bs-target="#staticBackdrop" class="btn">Enquiry <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
           <path d="M12.5 6L13.055 5.4955L13.5136 6L13.055 6.5045L12.5 6ZM1.13636 6.75C0.72215 6.75 0.386364 6.41421 0.386364 6C0.386364 5.58579 0.72215 5.25 1.13636 5.25L1.13636 6.75ZM8.5095 0.495495L13.055 5.4955L11.945 6.5045L7.39959 1.5045L8.5095 0.495495ZM13.055 6.5045L8.5095 11.5045L7.39959 10.4955L11.945 5.4955L13.055 6.5045ZM12.5 6.75L1.13636 6.75L1.13636 5.25L12.5 5.25L12.5 6.75Z" fill="white"/>
           </svg></a> <a href="{{ asset($model->brochure) }}" class="lineDownload" download> Download Brochure <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M8 10L7.29289 10.7071L8 11.4142L8.70711 10.7071L8 10ZM9 1C9 0.447715 8.55229 2.42698e-07 8 2.18557e-07C7.44772 1.94416e-07 7 0.447715 7 1L9 1ZM2.29289 5.70711L7.29289 10.7071L8.70711 9.29289L3.70711 4.29289L2.29289 5.70711ZM8.70711 10.7071L13.7071 5.70711L12.2929 4.29289L7.29289 9.29289L8.70711 10.7071ZM9 10L9 1L7 1L7 10L9 10Z" fill="white"/>

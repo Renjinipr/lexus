@@ -34,9 +34,6 @@ Route::post('update-password', ' PasswordResetLinkController@updatePassword')->n
 Route::post('admin-update-reset-password', ' PasswordResetLinkController@updateResetPassword')->name('admin-update-reset-password');
 
 
-
-
-
 Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), function () {
 
   Route::get('dashboard', 'App\\Http\\Controllers\\AdminController@dashboard')->name('admin-dashboard');
@@ -45,19 +42,6 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
   Route::post('new_password', 'App\\Http\\Controllers\\ProfileController@newPassword')->name('newpassword');
   Route::get('profile', 'App\\Http\\Controllers\\ProfileController@profile');
   Route::post('update_profile', 'App\\Http\\Controllers\\ProfileController@updateProfile')->name('update_profile');
-
-  //extended warranty
-  Route::resource('extended_warranty', 'App\Http\Controllers\Admin\ExtendedWarrantyController', ['names' => [
-    'create' => 'Admin.extended_warranty.create',
-    'index' => 'Admin.extended_warranty.index',
-    'store' => 'Admin.extended_warranty.store',
-    'edit' => 'Admin.extended_warranty.edit',
-    'update' => 'Admin.extended_warranty.update',
-    'destroy' => 'Admin.extended_warranty.destroy'
-  ]]);
-  Route::group(['prefix' => 'extended_warranty'], function () {
-    Route::post('extended_warranty_list', 'App\Http\Controllers\Admin\ExtendedWarrantyController@extendedWarrantyList');
-  });
 
 
   Route::get('extended_warranty_pdf', 'App\Http\Controllers\Admin\ExtendedWarrantyController@extendedWarrantyPdf');
@@ -108,7 +92,42 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
   Route::group(['prefix' => 'enquiries'], function () {
     Route::post('enquiry_list', 'App\Http\Controllers\Admin\EnquiryController@enquiryList');
   });
-  Route::get('enquiry_delete', 'App\Http\Controllers\Admin\EnquiryController@tradeEnquiryDelete');
+  Route::get('enquiry_delete', 'App\Http\Controllers\Admin\EnquiryController@enquiryDelete');
+
+//variants
+  Route::resource('variants', 'App\Http\Controllers\Admin\VariantsController', ['names' => [
+    'create' => 'Admin.variants.create',
+    'index' => 'Admin.variants.index',
+    'store' => 'Admin.variants.store',
+    'edit' => 'Admin.variants.edit',
+    'update' => 'Admin.variants.update',
+    'destroy' => 'Admin.variants.destroy'
+  ]]);
+  Route::group(['prefix' => 'variants'], function () {
+    Route::post('{id}/variants_list', 'App\Http\Controllers\Admin\VariantsController@variantList');
+    Route::get('{id}/index', 'App\Http\Controllers\Admin\VariantsController@index');
+    Route::post('remove-file', 'App\Http\Controllers\Admin\VariantsController@removeFile')->name('remove-variant-file');
+    Route::get('{id}/variant_delete', 'App\Http\Controllers\Admin\VariantsController@variantDelete');
+  });
+  // Route::get('variant_delete', 'App\Http\Controllers\Admin\VariantsController@variantDelete');
+
+
+  //Features
+  Route::resource('features', 'App\Http\Controllers\Admin\FeaturesController', ['names' => [
+    'create' => 'Admin.features.create',
+    'index' => 'Admin.features.index',
+    'store' => 'Admin.features.store',
+    'edit' => 'Admin.features.edit',
+    'update' => 'Admin.features.update',
+    'destroy' => 'Admin.features.destroy'
+  ]]);
+  Route::group(['prefix' => 'features'], function () {
+    Route::get('{id}/index', 'App\Http\Controllers\Admin\FeaturesController@index');
+    Route::post('{id}/features_list', 'App\Http\Controllers\Admin\FeaturesController@featureList');
+    Route::post('remove-file', 'App\Http\Controllers\Admin\FeaturesController@removeFile')->name('remove-feature-file');
+    Route::get('{id}/feature_delete', 'App\Http\Controllers\Admin\FeaturesController@featureDelete');
+  });
+  Route::get('feature_delete', 'App\Http\Controllers\Admin\FeaturesController@featureDelete');
 
 //Model Management
   Route::resource('model_management', 'App\Http\Controllers\Admin\ModelManagementController', ['names' => [
@@ -123,6 +142,9 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
     Route::post('model_list', 'App\Http\Controllers\Admin\ModelManagementController@modelIdList');
     Route::get('{id}/upload', 'App\Http\Controllers\Admin\ModelManagementController@upload');
     Route::get('{id}/variants', 'App\Http\Controllers\Admin\ModelManagementController@variants');
+    Route::get('{id}/features', 'App\Http\Controllers\Admin\ModelManagementController@features');
+    Route::post('remove-file', 'App\Http\Controllers\Admin\ModelManagementController@removeFile')->name('remove-model-file');
+    Route::post('remove-gallery-image', 'App\Http\Controllers\Admin\ModelManagementController@removeGalleryImage')->name('remove-gallery-file');
 
     //Route::get('model_management/{id}/upload', [App\Http\Controllers\Admin\ModelManagementController::class, 'upload'])->name('Admin.model_management.upload');
 
@@ -135,6 +157,8 @@ Route::post('/file-delete', [ModelManagementController::class, 'delete'])->name(
 
 Route::post('/upload/store', 'App\Http\Controllers\Admin\ModelManagementController@storeCarImages');
 Route::post('/variants_store', 'App\Http\Controllers\Admin\ModelManagementController@variantsStore');
+Route::post('/features', 'App\Http\Controllers\Admin\ModelManagementController@featuresStore');
+
 
   });
 

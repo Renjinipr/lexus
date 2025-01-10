@@ -31,7 +31,7 @@ class Model extends BaseModel {
   
   protected $table = 'model';
  
-  protected $fillable = array('id','model_id','status','created_at','updated_at');
+  protected $fillable = array('id','model_id','featured','status','created_at','updated_at');
 
   public $uploadPath = array('thumbnails' => ''); 
 

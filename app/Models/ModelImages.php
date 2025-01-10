@@ -32,7 +32,7 @@ class ModelImages extends BaseModel {
   protected $table = 'model_images';
  
   protected $fillable = [
-      'model_id','model_image','created_at'
+      'model_id','banner_image','created_at'
   ];
 
   public $uploadPath = array('thumbnails' => ''); 

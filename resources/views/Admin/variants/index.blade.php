@@ -1,6 +1,6 @@
 @extends('_layouts.default')
 @section('meta_title')
-   {{  "Enquiries" }}
+   {{  "Variants" }}
 @stop
 @section('head-assets')
     <!----daterangepicker---->
@@ -43,7 +43,7 @@
                             <div class="col-sm-12">
                                 <div class="row">                              
                                   <div class="col-sm-6 d-flex align-items-center text-center"> 
-                                    <h3>Enquiries</h3>
+                                    <h3>Variants</h3>
                                   </div> 
                                   <div class="col-sm-6 d-flex align-items-center"> 
                                     <ul class="nav navbar-right panel_toolbox table-menu-sec">
@@ -60,11 +60,11 @@
                                         </form>
                                       </li>
                                       
-                                      <!-- <li>
+                                      <li>
                                         <a href="{{ route($route.'.create') }}" class="btn btn-primary border-0 new-page-btn"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; New</a>
                                       </li>
                                       
-                                      <li>
+                                      <!-- <li>
                                         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                           <i class="fa fa-cog"></i>
                                         </button>
@@ -155,14 +155,11 @@
                                 <thead>
                                   <tr>
                                     <th>S.No</th>
-                                    <th>Unique ID</th>
-                                    <th>Name</th>
-                                    <!-- <th>Email</th> -->
-                                    <th>Contact Number</th>
-                                    <th>City</th>
                                     <th>Vehicle Model</th>
-                                    <th>Added On</th>
-                                    <th style="width:100px !important;">Message</th>
+                                    <th>Title</th>
+                                    <th>Sub title</th>
+                                    <th>Price</th>
+                                    <th>Added on</th>
                                     <th>Actions</th>
                                   </tr>
                                 </thead>
@@ -295,7 +292,7 @@
               }
             });
           $.ajax({
-            url:"{{url('/')}}/admin/enquiries/enquiry_list",
+            url:"{{url('/')}}/admin/variants/{{ $id }}/variants_list",
               data:{_token:"{{csrf_token()}}",filter:filter,page_number:page_number},
               dataType:'json',
               type:'post', 
@@ -311,9 +308,9 @@
                         var slno = j+data.offset;
                         var str = '<tr>';
                    
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].name+'</td><td>'+data.result[i].contact_no+'</td><td>'+data.result[i].city+'</td><td>'+data.result[i].vehicle_model+'</td><td>'+data.result[i].created_on+'</td><td>'+data.result[i].message+'</td><td><a href="' +url_+'/admin/enquiries/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
+                        str += '<td>'+slno+'</td><td>'+data.result[i].model_name+'</td><td>'+data.result[i].title+'</td><td>'+data.result[i].sub_title+'</td><td>'+data.result[i].price+'</td><td>'+data.result[i].created_on+'</td><<td><a href="' +url_+'/admin/variants/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
                         if(data.user_type != 2) {
-                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="enquiry_delete('+data.result[i].id+')"></a>';
+                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="variant_delete('+data.result[i].id+')"></a>';
                         }
                         str +='</td></tr>';
                         $('#datatable_ tbody').append(str);
@@ -409,7 +406,7 @@ $('#to_date').datepicker({
               }
             });
           $.ajax({
-            url:"{{url('/')}}/admin/enquiries/enquiry_list",
+            url:"{{url('/')}}/admin/variants/{{ $id }}/variants_list",
               data:{_token:"{{csrf_token()}}",filter:filter,page_number:page_number},
               dataType:'json',
               type:'post', 
@@ -424,9 +421,9 @@ $('#to_date').datepicker({
                         var url_ = '<?php echo url('/');?>';
                         var slno = j+data.offset;
                         var str = '<tr>';
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].name+'</td><td>'+data.result[i].contact_no+'</td><td>'+data.result[i].city+'</td><td>'+data.result[i].vehicle_model+'</td><td>'+data.result[i].created_on+'</td><td>'+data.result[i].message+'</td><td><a href="' +url_+'/admin/enquiries/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
+                        str += '<td>'+slno+'</td><td>'+data.result[i].model_name+'</td><td>'+data.result[i].title+'</td><td>'+data.result[i].sub_title+'</td><td>'+data.result[i].price+'</td><td>'+data.result[i].created_on+'</td><<td><a href="' +url_+'/admin/variants/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
                         if(data.user_type != 2) {
-                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="enquiry_delete('+data.result[i].id+')"></a>';
+                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="variant_delete('+data.result[i].id+')"></a>';
                         }
                         str +='</td></tr>';
 
@@ -487,6 +484,7 @@ $('#to_date').datepicker({
           var search = $('#search').val();
           var status_ =$("#status_").val();
           var filter = {per_page_count:perpage,search:search}
+          console.log(filter);
           var page_number = 1;
            $('#datatable_ tbody').html('<tr><th colspan="16">Loading <i class="fa fa-spinner fa-spin"></i></th></tr>');
 
@@ -497,7 +495,7 @@ $('#to_date').datepicker({
             });
 
           $.ajax({
-            url:"{{url('/')}}/admin/enquiries/enquiry_list",
+            url:"{{url('/')}}/admin/variants/{{ $id }}/variants_list",
               data:{_token:"{{csrf_token()}}",filter:filter,page_number:page_number},
               dataType:'json',
               type:'post', 
@@ -513,9 +511,9 @@ $('#to_date').datepicker({
                         var url_ = '<?php echo url('/');?>';
                         var slno = j+data.offset;
                         var str = '<tr>';
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].name+'</td><td>'+data.result[i].contact_no+'</td><td>'+data.result[i].city+'</td><td>'+data.result[i].vehicle_model+'</td><td>'+data.result[i].created_on+'</td><td>'+data.result[i].message+'</td><td><a href="' +url_+'/admin/enquiries/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
+                        str += '<td>'+slno+'</td><td>'+data.result[i].model_name+'</td><td>'+data.result[i].title+'</td><td>'+data.result[i].sub_title+'</td><td>'+data.result[i].price+'</td><td>'+data.result[i].created_on+'</td><<td><a href="' +url_+'/admin/variants/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
                         if(data.user_type != 2) {
-                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="enquiry_delete('+data.result[i].id+')"></a>';
+                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="variant_delete('+data.result[i].id+')"></a>';
                         }
                         str +='</td></tr>';
                         $('#datatable_ tbody').append(str);
@@ -594,7 +592,7 @@ $('#to_date').datepicker({
             });
 
           $.ajax({
-            url:"{{url('/')}}/admin/enquiries/enquiry_list",
+            url:"{{url('/')}}/admin/variants/{{ $id }}/variants_list",
               data:{_token:"{{csrf_token()}}",filter:filter,page_number:page_number},
               dataType:'json',
               type:'post', 
@@ -616,9 +614,9 @@ $('#to_date').datepicker({
                         
                         var str = '<tr>';
                        
-                        str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].name+'</td><td>'+data.result[i].contact_no+'</td><td>'+data.result[i].city+'</td><td>'+data.result[i].vehicle_model+'</td><td>'+data.result[i].created_on+'</td><td>'+data.result[i].message+'</td><td><a href="' +url_+'/admin/enquiries/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
+                        str += '<td>'+slno+'</td><td>'+data.result[i].model_name+'</td><td>'+data.result[i].title+'</td><td>'+data.result[i].sub_title+'</td><td>'+data.result[i].price+'</td><td>'+data.result[i].created_on+'</td><<td><a href="' +url_+'/admin/variants/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
                         if(data.user_type != 2) {
-                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="enquiry_delete('+data.result[i].id+')"></a>';
+                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="variant_delete('+data.result[i].id+')"></a>';
                         }
                         str +='</td></tr>';
                         
@@ -720,7 +718,7 @@ $('#to_date').datepicker({
             });
 
        $.ajax({
-              url:"{{url('/')}}/admin/enquiries/enquiry_list",
+              url:"{{url('/')}}/admin/variants/{{ $id }}/variants_list",
               data:{_token:"{{csrf_token()}}",filter:filter,page_number:page_number},
               dataType:'json',
               type:'post', 
@@ -741,9 +739,9 @@ $('#to_date').datepicker({
                         
                        var str = '<tr>';
                        
-                       str += '<td>'+slno+'</td><td>'+data.result[i].id+'</td><td>'+data.result[i].name+'</td><td>'+data.result[i].contact_no+'</td><td>'+data.result[i].city+'</td><td>'+data.result[i].vehicle_model+'</td><td>'+data.result[i].created_on+'</td><td>'+data.result[i].message+'</td><td><a href="' +url_+'/admin/enquiries/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
+                       str += '<td>'+slno+'</td><td>'+data.result[i].model_name+'</td><td>'+data.result[i].title+'</td><td>'+data.result[i].sub_title+'</td><td>'+data.result[i].price+'</td><td>'+data.result[i].created_on+'</td><<td><a href="' +url_+'/admin/variants/'+data.result[i].id + '/edit'+'" class="" title="Edit"><img src="{{asset('img/edit.svg')}}" alt="Edit Icon" height="25"></a>';
                        if(data.user_type != 2) {
-                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="enquiry_delete('+data.result[i].id+')"></a>';
+                            str += '<a href="#" class="connector_delete" title="Delete"><img src="{{asset('img/delete.svg')}}" alt="Delete Icon" height="25"  onclick="variant_delete('+data.result[i].id+')"></a>';
                         }
                         
                         str +='</td></tr>';
@@ -834,7 +832,7 @@ $('#to_date').datepicker({
 <script src="{{asset('js/boot4alert.js')}}"></script>
  <script type="text/javascript">
 
-function enquiry_delete(id) {
+function variant_delete(id) {
     Swal.fire({
         title: 'WARNING',
         text: 'Are you sure to delete selected? Associated data will be removed.',
@@ -846,7 +844,7 @@ function enquiry_delete(id) {
         cancelButtonText: 'No, cancel!',
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'enquiry_delete?id=' + id;
+            window.location.href = 'variant_delete?id=' + id;
         }
     });
 }

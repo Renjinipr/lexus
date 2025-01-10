@@ -9,14 +9,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Enquiry;
+use App\Models\Features;
 use App\Models\Logs;
-use App\Models\Category;
-use App\Exports\ExtendedWarrantyExport;
+use App\Models\Model;
 use Illuminate\Support\Facades\Session;
 
 
-class EnquiryController extends BaseController
+class FeaturesController extends BaseController
 {
   use ResourceTrait;
   /**         
@@ -30,29 +29,32 @@ class EnquiryController extends BaseController
   public function __construct()
   {
     parent::__construct();
-    $this->model = new Enquiry;
-    $this->route .= '.enquiries';
-    $this->views .= '.enquiries';
+    $this->model = new Features;
+    $this->route .= '.features';
+    $this->views .= '.features';
 
     $this->resourceConstruct();
   }
 
   protected function getEntityName()
   {
-    return 'Enquiry';
+    return 'Features';
   }
-  public function index()
+  public function index($id)
   {
+    $model_name = Model::where('id', $id)->value('model_id');
+    Session(['model_id' => $id]);
+    Session(['model_name' => $model_name]);
     if (Request()->ajax()) {
       $collection = $this->getCollection();
       $route = $this->route;
       return $this->setDTData($collection)->make(true);
     } else {
-      return view($this->views . '.index');
+      return view($this->views . '.index', ['id' => $id]);
     }
   }
 
-  public function enquiryList(Request $request)
+  public function featureList($id, Request $request)
   {
     $inputs = $request->all();
     $filter = $request->filter;
@@ -63,7 +65,7 @@ class EnquiryController extends BaseController
       $currentPage = 1;
     }
 
-    $dataArr = $this->getCollection();
+    $dataArr = $this->getCollection($id);
     $collections = $dataArr['collection'];
     $totalCount =  $dataArr['count'];
     $totalPages = $dataArr['total_pages'];
@@ -73,21 +75,11 @@ class EnquiryController extends BaseController
     $i = 0;
     foreach ($collections as $collection) {
       $resultArr[$i]['id'] = $collection->id;
-      $resultArr[$i]['name'] = ucwords(strtolower($collection->name));
-      $resultArr[$i]['contact_no'] = $collection->contact_no;
-      $resultArr[$i]['city'] = $collection->city;
-      $resultArr[$i]['vehicle_model'] = $collection->model_name;
+      $model_name = Model::where('id', $collection->model_id)->value('model_id');
+      $resultArr[$i]['model_name'] = $model_name;
+      $resultArr[$i]['title'] = $collection->title;
+      $resultArr[$i]['description'] = Str::limit($collection->description, 15, '...');
       $resultArr[$i]['created_on'] = Carbon::parse($collection->created_at)->format('d F Y');
-      $resultArr[$i]['district'] = $collection->district;
-      $resultArr[$i]['pincode'] = $collection->pincode;
-
-
-
-      if(isset($collection->message)) {
-        $resultArr[$i]['message'] = Str::limit($collection->message, 10, '...');
-      } else {
-        $resultArr[$i]['message'] = "-";
-      }
 
       $i++;
     }
@@ -102,38 +94,15 @@ class EnquiryController extends BaseController
     return response()->json($data, 200);
   }
 
-  protected function getCollection()
+  protected function getCollection($id = null)
   {
     $data = Input::all();
     $filter = $data['filter'];
     DB::enableQueryLog();
     $user=Auth::guard('admin')->user();
     
-    $collection = $this->model->select('*');
+    $collection = $this->model->select('*')->where('model_id', $id);
 
-    if (isset($filter['name'])) {
-      if ($filter['name'] != '') {
-         $collection = $collection->where('name',$filter['name']);
-       }
-     }
-
-    if (isset($filter['contact_number'])) {
-      if ($filter['contact_number'] != '') {
-         $collection = $collection->where('contact_no',$filter['contact_number']);
-       }
-     }
-
-    if (isset($filter['modal_number'])) {
-      if ($filter['modal_number'] != '') {
-         $collection = $collection->where('modal_no',$filter['modal_number']);
-       }
-     }
-
-    if (isset($filter['category_id'])) {
-      if ($filter['category_id'] != '') {
-         $collection = $collection->where('product_category_id',$filter['category_id']);
-       }
-     }
 
      if (isset($filter['search_executive_user_id'])) {
       if ($filter['search_executive_user_id'] != '') {
@@ -145,9 +114,7 @@ class EnquiryController extends BaseController
       if ($filter['search_val'] != '') {
         $searchString_ = $filter['search_val'];
         $collection = $collection->where(function ($query) use ($searchString_) {
-          $query->where('enquiry.name', 'like', '%' . $searchString_ . '%')
-          ->orwhere('enquiry.contact_no', 'like', '%' . $searchString_ . '%')
-            ->orWhere('enquiry.model_name', 'like', '%' . $searchString_ . '%');
+          $query->where('features.title', 'like', '%' . $searchString_ . '%');
         });
       }
     }
@@ -156,9 +123,7 @@ class EnquiryController extends BaseController
       if ($filter['search'] != '') {
         $searchString = $filter['search'];
         $collection = $collection->where(function ($query) use ($searchString) {
-          $query->where('enquiry.name', 'like', '%' . $searchString . '%')
-          ->orwhere('enquiry.contact_no', 'like', '%' . $searchString . '%')
-            ->orWhere('enquiry.model_name', 'like', '%' . $searchString . '%');
+          $query->where('features.title', 'like', '%' . $searchString . '%');
         });
       }
     }
@@ -201,7 +166,7 @@ class EnquiryController extends BaseController
         $offset = (($currentPage - 1) * $perpage);
         DB::enableQueryLog();
 
-        $collection = $this->model->select('*');
+        $collection = $this->model->select('*')->where('model_id', $id);
 
         if (isset($filter['name'])) {
             if ($filter['name'] != '') {
@@ -216,20 +181,6 @@ class EnquiryController extends BaseController
        }
      }
 
-
-    if (isset($filter['modal_number'])) {
-      if ($filter['modal_number'] != '') {
-         $collection = $collection->where('modal_no',$filter['modal_number']);
-       }
-     }
-
-
-    if (isset($filter['category_id'])) {
-      if ($filter['category_id'] != '') {
-         $collection = $collection->where('product_category',$filter['category_id']);
-       }
-     }
-
      if (isset($filter['search_executive_user_id'])) {
       if ($filter['search_executive_user_id'] != '') {
          $collection = $collection->where('executive_user_id',$filter['search_executive_user_id']);
@@ -240,9 +191,7 @@ class EnquiryController extends BaseController
       if ($filter['search_val'] != '') {
         $searchString_ = $filter['search_val'];
         $collection = $collection->where(function ($query) use ($searchString_) {
-          $query->where('enquiry.name', 'like', '%' . $searchString_ . '%')
-            ->orWhere('enquiry.model_name', 'like', '%' . $searchString_ . '%')
-            ->orWhere('enquiry.contact_no', 'like', '%' . $searchString_ . '%');
+          $query->where('features.title', 'like', '%' . $searchString_ . '%');
         });
       }
     }
@@ -250,9 +199,7 @@ class EnquiryController extends BaseController
       if ($filter['search'] != '') {
         $searchString = $filter['search'];
         $collection = $collection->where(function ($query) use ($searchString) {
-          $query->where('enquiry.name', 'like', '%' . $searchString . '%')
-            ->orWhere('enquiry.model_name', 'like', '%' . $searchString . '%')
-            ->orWhere('enquiry.contact_no', 'like', '%' . $searchString . '%');
+          $query->where('features.title', 'like', '%' . $searchString . '%');
         });
       }
     }
@@ -290,9 +237,6 @@ class EnquiryController extends BaseController
     $dataArr['total_pages'] = $pages;
     return $dataArr;
   }
-
-
-
   
 
   protected function setDTData($collection, $qs_array = [])
@@ -320,17 +264,13 @@ class EnquiryController extends BaseController
       $data,
       [
 
-    'name' => 'required|string|max:255',
-    'contact_no' => 'required|max:15',
-    'model_name' => 'required',
-    'city' => 'required',
-    'message' => 'required'
+    'feature_image' => 'required|max:4096',
+    'title' => 'required|string|max:255',
+    'description' => 'required',
+    'status'=>'required',
   ],
       [
-    'name.required' => 'Please enter name.',
-    'contact_no.required' => 'Please enter contact number.',
-    'city' => 'Please enter city.',
-    'message' => 'Please enter description.'
+        'feature_image.required' => 'Image field is required.',
       ]
     );
 
@@ -344,43 +284,46 @@ class EnquiryController extends BaseController
   {
     $data = Input::all();
     
+    if ($request->hasFile('feature_image')) {
+      $featureImage = $request->file('feature_image');
+      $extension = $featureImage->getClientOriginalExtension();
+      $feature_image_name = $request->model_id.'-'.$featureImage->getClientOriginalName();
+      $feature_image_path = 'uploads/features/' . $feature_image_name; 
+      $featureImage->move(public_path('uploads/features/'), $feature_image_name);
+      $featureImagePath =$feature_image_path;
+    }
 
     $this->model->fill($this->prepareData());
     DB::beginTransaction();
     try {
-        $save_data = new Enquiry(); 
-        $save_data['name'] = $request->name;
-        $save_data['contact_no'] = $request->contact_no;
-        if(isset($request->description)) {
-        	$save_data['message'] = $request->description;
-        }
-        if(isset($request->model_name)){
-          $save_data['model_name'] = $request->model_name; 
-        }
-        if(isset($request->status)) {
-            $save_data['status'] = $request->status;
-        }
-        $save_data->save();
+        $variant = new Features();
+        $variant->model_id = session('model_id');
+        $variant->image_url = $featureImagePath;
+        $variant->title = $data['title'];
+        $variant->description = $data['description'];
+        $variant->status = $data['status'];  
+
+        $variant->save();
 
       DB::commit();
       $log_arr = array('user_id'=>Auth::guard('admin')->user()->id,
-                             'module'=>'Enquiry',
-                             'action'=> 'Enquiry Added for '.$request->contact_no.' by '.Auth::guard('admin')->user()->name
+                             'module'=>'Features',
+                             'action'=> 'Feature Added for model ID='.$request->model_id.' by '.Auth::guard('admin')->user()->name
                             ); 
             Logs::insertLog($log_arr);
-      return $this->redirect('created successfully.');
+      // return $this->redirect('created successfully.');
+      return redirect('admin/features/'. session('model_id') . '/index')->with('success', 'Created Successfully.');
       
     } catch (Exception $e) {
 
       DB::rollBack();
       return $this->redirect('Not Created');
+      return redirect('admin/features/'. session('model_id') . '/index')->with('success', 'Not Created.');
     }
   }
  
 
-  public function edit($id)
-  {
-
+  public function edit($id) {
     $obj = $this->model->where('id', $id)->first();
 
     if ($obj) {
@@ -394,16 +337,15 @@ class EnquiryController extends BaseController
   {
     $data = Input::all();
 
-    $validator = Validator::make(Input::all(), [
-      'name' => 'required|string|max:50',
-      'contact_no' => 'required|max:10',
-      'model_name' => 'required',
-      // 'remarks' => 'required',
-      'status' => 'required',
-  ], [
-      'name.required' => 'Name field is required.',
-      'contact_no.required' => 'Contact number field is required.',
-  ]);
+    $validator = Validator::make($data, [
+
+      'title' => 'required|string|max:255',
+      'description' => 'required',
+      'status'=>'required',
+    ],
+        [
+         
+        ]);
   
         
     if ($validator->fails()) {
@@ -417,6 +359,9 @@ class EnquiryController extends BaseController
   {
     $obj = $this->model->find($id);
 
+    $image_path = $obj->image_url;
+    $image_name = basename($image_path);
+
     if ($obj) {
       $data = Input::all();
 
@@ -429,36 +374,51 @@ class EnquiryController extends BaseController
       // else {
       //   $executive_user_id = $data['executive_user_id'];
       // }
-        $this->update_data('Enquiry', array('id' => $id), array(
-          'name' => ucwords(strtolower($data['name'])),
-          'contact_no' => $data['contact_no'],
-          'model_name' => $data['model_name'],
+
+      if ($request->hasFile('feature_image') && $image_name != $request->file('feature_image')->getClientOriginalName()) {
+        $feature_image = $request->file('feature_image');
+        $feature_image_name = $request->model_id.'-'.$feature_image->getClientOriginalName();
+        $feature_image_path = 'uploads/features/' . $feature_image_name; 
+        $feature_image->move(public_path('uploads/features/'), $feature_image_name);
+        $featureImage =$feature_image_path;
+      }
+      else {
+        $featureImage = $image_path;
+      }
+        $this->update_data('Features', array('id' => $id), array(
+          'title' => $data['title'],
+          'image_url' => $featureImage,
+          'description' => $data['description'],
           'status' => $data['status'],
-          'message' => $data['message']
         ));
   
    $log_arr = array('user_id'=>Auth::guard('admin')->user()->id,
-                             'module'=>'Enquiry',
-                             'action'=> Auth::guard('admin')->user()->name."Enquiry Updated"
+                             'module'=>'Features',
+                             'action'=> Auth::guard('admin')->user()->name."Features Updated"
                             ); 
             Logs::insertLog($log_arr);
       
-      return $this->redirect('Updated Successfully.');
+      // return $this->redirect('Updated Successfully.');
+      return redirect('admin/features/'. session('model_id') . '/index')->with('success', 'Updated Successfully.');
     } else {
       return $this->redirect('notfound.', 'error');
     }
   }
 
-  public function enquiryDelete(Request $request)
+  public function featureDelete(Request $request)
   {
-
     $flag = 0;
     $obj = $this->model->find($request->id);
     if ($obj) {
+      $featureImagePath = '';
+      $featureImagePath = public_path($obj->image_url);
+      if(file_exists($featureImagePath)) {
+        unlink($featureImagePath);
+      }
+      Features::where('id', $request->id)->delete();
 
-      Enquiry::where('id', $request->id)->delete();
-
-      return $this->redirect('Deleted Successfully.');
+      // return $this->redirect('Deleted Successfully.');
+      return redirect('admin/features/'. session('model_id') . '/index')->with('success', 'Deleted Successfully.');
     } else
       $flag = 1;
 
@@ -466,82 +426,20 @@ class EnquiryController extends BaseController
       return $this->redirect('notfound', 'error');
   }
 
- 
- public function extendedWarrantyPdf(Request $request)
-  {
-    $collection = ExtendedWarranty::select(DB::raw("@row := @row + 1 as position"),'extended_warranty.name as name','extended_warranty.order_id as order_id','category.category as category','extended_warranty.model_no as model_no','extended_warranty.date_of_purchase as date_of_purchase','extended_warranty.warranty_period as warranty_period','extended_warranty.warranty_period_from as warranty_period_from','extended_warranty.warranty_period_to as warranty_period_to')
-    ->join('category', 'category.id', '=', 'extended_warranty.product_category_id')
-    ->where('extended_warranty.id',$request->warranty_user_id)
-    ->orderby('extended_warranty.id', 'ASC');
-    $collections = $collection->first();
-
- 
-      $resultArr['name'] = ucwords(strtolower($collections->name));
-      $resultArr['model_no'] = $collections->model_no;
-      $resultArr['order_id'] = $collections->order_id;
-      if(isset($collections->date_of_purchase)){
-        $resultArr['date_of_purchase'] =  \Carbon\Carbon::parse($collections->date_of_purchase)->format('d F Y');
-      }else{
-        $resultArr['date_of_purchase'] = "-";
-      }
-      
-      $resultArr['category'] = $collections->category;
-      if(isset($collections->warranty_period)){
-      $resultArr['warranty_period'] = \Carbon\Carbon::parse($collections->warranty_period)->format('d F Y');
-      }else{
-      $resultArr['warranty_period'] = "-";
-      }
-
-      if(isset($collections->warranty_period_from)){
-        $resultArr['warranty_period_from'] = \Carbon\Carbon::parse($collections->warranty_period_from)->format('d F Y');
-      }else{
-        $resultArr['warranty_period_from'] ="-";
-      }
-
-
-   if(isset($collections->warranty_period_to)){
-        $resultArr['warranty_period_to'] = \Carbon\Carbon::parse($collections->warranty_period_to)->format('d F Y');
-      }else{
-        $resultArr['warranty_period_to'] ="-";
-      }
-
-    $pdf =  PDF::loadView('Admin.extended_warranty.pdf', array('collection' => $resultArr));
-    $destinationPath = public_path('uploads/extended_warranty');
-    $pdfName = ucwords(strtolower($collections->name)) .'-'.$collections->order_id.'-'. $resultArr['date_of_purchase'] . '.' . 'pdf';
-    $pdf->save($destinationPath . '/' . $pdfName);
-    //return $pdf->download('extended_warranty_list.pdf');
-    return response()->download($destinationPath . '/' . $pdfName, $pdfName);  }
-
-
-  public function extendedWarrantyExport(Request $request)
-  { 
-    ob_end_clean();
-    ob_start();
-    // return Excel::download(new ExtendedWarrantyExport($request->name, $request->contact_number, $request->modal_number, $request->category_id), 'Extended_Warranty_List.xlsx');
-    return Excel::download(new ExtendedWarrantyExport($request->contact_number, $request->warranty_period_from, $request->warranty_period_to,$request->search,$request->search_executive_user_id,$request->search_assigned_user_id,$request->search_warranty_status,$request->search_screenshot_status,$request->search_order_id), 'Extended_Warranty_List.xlsx');
-
-  }
-
   public function removeFile(Request $request)
 {
     $fileType = $request->input('file_type');
     $fileId = $request->input('file_id');
 
-    $obj = TradeEnquiry::find($fileId);
+    $obj = Features::find($fileId);
     
     if($obj) {
         $filePath = '';
 
-        if($fileType == 'doc_screenshot') {
-            $filePath = public_path($obj->doc_screenshot_file);
-            $obj->doc_screenshot_file = null;
-            $obj->doc_screenshot_extension = null;
-        } elseif($fileType == 'invoice_link') {
-            $filePath = public_path($obj->invoice_link);
-            $obj->invoice_link = null;
-            $obj->invoice_link_extension = null;
+        if($fileType == 'feature') {
+            $filePath = public_path($obj->image_url);
+            $obj->image_url = null;
         }
-
         if(file_exists($filePath)) {
             unlink($filePath);
         }

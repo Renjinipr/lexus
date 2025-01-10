@@ -7,7 +7,7 @@
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-    <link rel="icon" type="image/png" href="{{ asset('img/favicon 2.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 
   </head>
   <body>

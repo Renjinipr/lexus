@@ -10,7 +10,7 @@
     <title>@yield('meta_title')</title>
   @yield('head-assets')
       <!-- <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.svg') }}" /> -->
-      <link rel="icon" type="image/png" href="{{ asset('img/favicon 2.png') }}" />
+      <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 
    <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">

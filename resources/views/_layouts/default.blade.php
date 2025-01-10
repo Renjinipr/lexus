@@ -48,7 +48,7 @@
                             <!-- <span class="cal-icon-top icon-icons-1-01-10"></span> -->
                          </span>
                           <span class="py-1 date-sec-time mt-0">
-                          <?php $date = new DateTime();
+                          <?php $date = new DateTime("now", new DateTimeZone('Asia/Kolkata'));
                                echo $date->format('d M Y g:i A'); 
                            ?>
                             <!-- <input type="text" class="form-control" /> -->

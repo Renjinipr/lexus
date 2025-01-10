@@ -1,13 +1,19 @@
 @extends('_layouts.default')
+@section('head-assets')
+  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@endsection
 @section('content-area')
 <!-- 
 <link rel="stylesheet" href="{{ asset('css/bootstrapver-5.min.css') }}"> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script> -->
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/> -->
-<section class="form_page">
+<section class="form_page x_panel p-4">
 <div class="container">
     <div class="row justify-content-center align-items-center h-100">
-        <div class="col-md-8">   
+        <div class="col-md-12 px-0">   
             @if(session('success')) 
                 <div class="success_message">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -17,8 +23,8 @@
                 </div>
             @endif
             <div class="form-container">
-                <div class="subtitle_">
-                    <h2>Upload The Model Images</h2>
+                <div class="x_title">
+                    <h1>Upload The Model Images</h1>
                 </div>
 
                
@@ -30,20 +36,9 @@
                     <div class="col-md-6" id="ds" > 
                     <input type="hidden" name="model_id" value="{{ $id }}">  
                         <div class="form-group">
-                            {!! Form::label('bannerImage', 'Upload Banner Images:', array('id'=>'banner_image')) !!}
+                        <label class="form-label">Upload Banner Images <span style="font-size:12px" class="text-muted">(An 1200*675 image would be recommended. Allowed file formats: png, jpeg,jpg, webp.)</span></label>
                                 <div class="border-doted position-relative file-Upload_field">
                                 {!! Form::file('bannerImage[]', array('id'=>'bannerImage', 'class'=>'form-control' , 'data-field'=>'bannerImage', 'onchange'=>"displayThumbnails(event, 'bannerImage')", 'multiple'=>'multiple')) !!}
-                                <div class="d-flex align-items-center p-3">
-                                    <div class="text-center upload_icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 15.75C12.4142 15.75 12.75 15.4142 12.75 15V4.02744L14.4306 5.98809C14.7001 6.30259 15.1736 6.33901 15.4881 6.06944C15.8026 5.79988 15.839 5.3264 15.5694 5.01191L12.5694 1.51191C12.427 1.34567 12.2189 1.25 12 1.25C11.7811 1.25 11.573 1.34567 11.4306 1.51191L8.43056 5.01191C8.16099 5.3264 8.19741 5.79988 8.51191 6.06944C8.8264 6.33901 9.29988 6.30259 9.56944 5.98809L11.25 4.02744V15C11.25 15.4142 11.5858 15.75 12 15.75Z" fill="#0AB058"/>
-                                        <path d="M16 9C15.2978 9 14.9467 9 14.6945 9.16851C14.5853 9.24148 14.4915 9.33525 14.4186 9.44446C14.25 9.69667 14.25 10.0478 14.25 10.75V15C14.25 16.2426 13.2427 17.25 12 17.25C10.7574 17.25 9.75004 16.2426 9.75004 15V10.75C9.75004 10.0478 9.75004 9.69664 9.58149 9.4444C9.50854 9.33523 9.41481 9.2415 9.30564 9.16855C9.05341 9 8.70227 9 8 9C5.17157 9 3.75736 9 2.87868 9.87868C2 10.7574 2 12.1714 2 14.9998V15.9998C2 18.8282 2 20.2424 2.87868 21.1211C3.75736 21.9998 5.17157 21.9998 8 21.9998H16C18.8284 21.9998 20.2426 21.9998 21.1213 21.1211C22 20.2424 22 18.8282 22 15.9998V14.9998C22 12.1714 22 10.7574 21.1213 9.87868C20.2426 9 18.8284 9 16 9Z" fill="#C2C2C2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="w-75">     
-                                        <label for="attachment">Click to Upload</label>       
-                                        <!-- <span>Upload upto 1 file</span>  -->
-                                    </div>
-                                </div>
                             </div>
                 
                             <div class="bannerImage_error error" style="display: none;"></div>
@@ -54,28 +49,31 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="gallery col-lg-12">
+                        <h2>Banner images</h2>
+                        @foreach($banner_images as $banner)
+                            <div class="col-md-6 col-lg-2 mb-3">
+                                <div id="attachments">
+                                    <img src="{{ asset($banner->banner_image) }}" alt="Banner Image" class="thumbnail" style="width:130px; height:80px;  border-radius:5px;">
+                                    <a href="#" class="close remove-file" title="Remove" data-file-type="banner" data-file-id="{{ $banner->id }}" aria-label="Close" style="position: absolute; top: 10px; right: 45px; text-decoration: none; font-size: 30px; background: none; border: none; outline: none; opacity:100%;">
+                                        <img src="{{ asset('img/close-button.png') }}" alt="Close" style="width: 20px; height: 20px;">
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach    
+                    </div>
+                </div>
+                <hr class="my-4">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {!! Form::label('gallery_image', 'Upload Gallery Images:') !!}
+                        <label class="form-label" for="galleryImage">Upload Gallery Images <span style="font-size:12px" class="text-muted">(An 1200*675 image would be recommended. Allowed file formats: png, jpeg,jpg, webp.)</span></label>
                             <div class="border-doted position-relative file-Upload_field">
                                 {!! Form::file('galleryImage[]', array('id'=>'galleryImage', 'class'=>'form-control' , 'data-field'=>'galleryImage', 'multiple'=>'multiple', 'onchange'=>"displayThumbnails(event, 'galleryImage')")) !!}
-                                <div class="d-flex align-items-center p-3">
-                                    <div class="text-center upload_icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 15.75C12.4142 15.75 12.75 15.4142 12.75 15V4.02744L14.4306 5.98809C14.7001 6.30259 15.1736 6.33901 15.4881 6.06944C15.8026 5.79988 15.839 5.3264 15.5694 5.01191L12.5694 1.51191C12.427 1.34567 12.2189 1.25 12 1.25C11.7811 1.25 11.573 1.34567 11.4306 1.51191L8.43056 5.01191C8.16099 5.3264 8.19741 5.79988 8.51191 6.06944C8.8264 6.33901 9.29988 6.30259 9.56944 5.98809L11.25 4.02744V15C11.25 15.4142 11.5858 15.75 12 15.75Z" fill="#0AB058"/>
-                                        <path d="M16 9C15.2978 9 14.9467 9 14.6945 9.16851C14.5853 9.24148 14.4915 9.33525 14.4186 9.44446C14.25 9.69667 14.25 10.0478 14.25 10.75V15C14.25 16.2426 13.2427 17.25 12 17.25C10.7574 17.25 9.75004 16.2426 9.75004 15V10.75C9.75004 10.0478 9.75004 9.69664 9.58149 9.4444C9.50854 9.33523 9.41481 9.2415 9.30564 9.16855C9.05341 9 8.70227 9 8 9C5.17157 9 3.75736 9 2.87868 9.87868C2 10.7574 2 12.1714 2 14.9998V15.9998C2 18.8282 2 20.2424 2.87868 21.1211C3.75736 21.9998 5.17157 21.9998 8 21.9998H16C18.8284 21.9998 20.2426 21.9998 21.1213 21.1211C22 20.2424 22 18.8282 22 15.9998V14.9998C22 12.1714 22 10.7574 21.1213 9.87868C20.2426 9 18.8284 9 16 9Z" fill="#C2C2C2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="w-75">     
-                                        <label for="attachment">Click to Upload</label>       
-                                        <!-- <span>Upload upto 1 file</span>  -->
-                                    </div>
-                                </div>
                             </div>                         
-                            <div class="galleryImage_error error" style="display: none;"></div>
                             @if($errors->has('galleryImage'))
-                                <div class="alert alert-danger">{{ $errors->first('galleryImage') }}</div>
+                            <span  class="text-danger error" style="color:#e03b3b" id="galleryImage_error">{{ $errors->first('galleryImage') }}</span> 
                             @endif
                             <div id="galleryImageThumbnailPlaceholder" class="thumbnail"></div>
                         </div>
@@ -93,31 +91,19 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {!! Form::label('feature_image', 'Upload Feature Image:') !!}
-                            <div class="border-doted position-relative file-Upload_field">
-                                {!! Form::file('featureImage[]', array('id'=>'featureImage', 'class'=>'form-control', 'data-field'=>'featureImage', 'onchange'=>"displayThumbnails(event, 'featureImage')")) !!}
-                                <div class="d-flex align-items-center p-3">
-                                    <div class="text-center upload_icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 15.75C12.4142 15.75 12.75 15.4142 12.75 15V4.02744L14.4306 5.98809C14.7001 6.30259 15.1736 6.33901 15.4881 6.06944C15.8026 5.79988 15.839 5.3264 15.5694 5.01191L12.5694 1.51191C12.427 1.34567 12.2189 1.25 12 1.25C11.7811 1.25 11.573 1.34567 11.4306 1.51191L8.43056 5.01191C8.16099 5.3264 8.19741 5.79988 8.51191 6.06944C8.8264 6.33901 9.29988 6.30259 9.56944 5.98809L11.25 4.02744V15C11.25 15.4142 11.5858 15.75 12 15.75Z" fill="#0AB058"/>
-                                            <path d="M16 9C15.2978 9 14.9467 9 14.6945 9.16851C14.5853 9.24148 14.4915 9.33525 14.4186 9.44446C14.25 9.69667 14.25 10.0478 14.25 10.75V15C14.25 16.2426 13.2427 17.25 12 17.25C10.7574 17.25 9.75004 16.2426 9.75004 15V10.75C9.75004 10.0478 9.75004 9.69664 9.58149 9.4444C9.50854 9.33523 9.41481 9.2415 9.30564 9.16855C9.05341 9 8.70227 9 8 9C5.17157 9 3.75736 9 2.87868 9.87868C2 10.7574 2 12.1714 2 14.9998V15.9998C2 18.8282 2 20.2424 2.87868 21.1211C3.75736 21.9998 5.17157 21.9998 8 21.9998H16C18.8284 21.9998 20.2426 21.9998 21.1213 21.1211C22 20.2424 22 18.8282 22 15.9998V14.9998C22 12.1714 22 10.7574 21.1213 9.87868C20.2426 9 18.8284 9 16 9Z" fill="#C2C2C2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="w-75">     
-                                        <label for="attachment">Click to Upload</label>       
-                                    </div>
+                    <div class="gallery col-lg-12">
+                        <h2>Gallery images</h2>
+                        @foreach($gallery as $image)
+                            <div class="col-md-6 col-lg-2 mb-3">
+                                <div id="attachments">
+                                    <img src="{{ asset($image->image_url) }}" alt="Gallery Image" class="thumbnail" style="width:128px; height:80px; border-radius:5px;">
+                                    <a href="#" class="close remove-file" title="Remove" data-file-type="gallery" data-file-id="{{ $image->id }}" aria-label="Close" style="position: absolute; top: 10px; right: 45px; text-decoration: none; font-size: 30px; background: none; border: none; outline: none; opacity:100%;">
+                                        <img src="{{ asset('img/close-button.png') }}" alt="Close" style="width: 20px; height: 20px;">
+                                    </a>
                                 </div>
-                            </div>                            
-                            <div class="featureImage_error error" style="display: none;"></div>
-                                @if($errors->has('featureImage'))
-                                    <div class="alert alert-danger">{{ $errors->first('featureImage') }}</div>
-                                @endif
-                            <div id="featureImageThumbnailPlaceholder" class="thumbnail d-flex flex-wrap"></div>
-                        </div>
+                            </div>
+                        @endforeach    
                     </div>
                 </div>
 
@@ -129,7 +115,7 @@
                     <div class="alert alert-danger">{{ $errors->first('fields') }}</div>
                 @endif
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="col-lg-12 text-right">
                             <a href="{{ url('/admin/model_management/')}}" class="btn  mt-2 btn-secondary">Cancel</a>
                             <button type="submit" class="btn btn-sumbit btn-primary mt-2 mr-1">Submit</button>
@@ -144,80 +130,19 @@
     </div>
 </div>
 </section>
-<!-- Modal
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      
-        <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="success_message">
-            <svg width="65px" height="65px" viewBox="-15.36 -15.36 542.72 542.72" xmlns="http://www.w3.org/2000/svg" fill="#037537" stroke="#037537"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.024"></g><g id="SVGRepo_iconCarrier"> <defs> <style>.cls-1{fill:none;stroke:#037537;stroke-linecap:round;stroke-linejoin:round;stroke-width:36.352;}</style> </defs> <g data-name="Layer 2" id="Layer_2"> <g data-name="E408, Success, Media, media player, multimedia" id="E408_Success_Media_media_player_multimedia"> <circle class="cls-1" cx="256" cy="256" r="246"></circle> <polyline class="cls-1" points="115.54 268.77 200.67 353.9 396.46 158.1"></polyline> </g> </g> </g></svg>
-            <h3>Data uploaded successfully</h3>
-      
-            <button type="button" class="btn-submit " data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
+<div class="clearfix"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{asset('js/boot4alert.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var currentField = null;
-
-    // function displayThumbnails(event, fieldName) {
-    //     var input = event.target;
-
-    //     // Clear the existing thumbnails
-    //     var thumbnailContainer = document.getElementById(fieldName + "ThumbnailPlaceholder");
-    //     thumbnailContainer.innerHTML = "";
-    //     thumbnailContainer.style.display = "flex";
-
-    //     // Check if any file is selected
-    //     if (input.files && input.files.length > 0) {
-    //         for (var i = 0; i < input.files.length; i++) {
-    //             var container = document.createElement("div");
-    //             container.style.width = "180px";
-    //             container.style.height = "120px";
-    //             container.className = "thumbnail-container";
-
-    //             var file = input.files[i];
-    //             var fileType = getFileType(file.name);
-
-    //                 var img = document.createElement("img");
-    //                 img.src = URL.createObjectURL(file);
-    //                 img.style.width = "90%";
-    //                 img.style.height = "90%";
-    //                 img.style.objectFit = "cover";
-    //                 img.style.borderRadius = "6px";
-    //                 container.appendChild(img);
-
-    //             var removeIcon = document.createElement("span");
-    //             removeIcon.style.cursor = "pointer";
-    //             removeIcon.className = "remove-icon-pic remove-icon" + i;
-    //             removeIcon.innerHTML = "&times;";
-
-    //             (function (container) {
-    //             removeIcon.addEventListener("click", function () {
-    //                 container.remove();
-    //             });
-    //             })(container);
-
-    //             // container.appendChild(img);
-    //             container.appendChild(removeIcon);
-
-    //             thumbnailContainer.appendChild(container);
-    //         }
-    //     }
-    // }
 
     let selectedFiles = {};
 
 function displayThumbnails(event, inputId) {
     const input = document.getElementById(inputId);
     const files = Array.from(input.files);
-    // selectedFiles[inputId] = [];
 
     if (!selectedFiles[inputId]) {
         selectedFiles[inputId] = [];
@@ -259,13 +184,6 @@ document.getElementById('lexusImages').addEventListener('submit', function (even
     selectedFiles.forEach(file => {
         formData.append('carImages[]', file);
     });
-
-    // Submit the form via AJAX or let it proceed normally
-    // Example AJAX submission:
-    // event.preventDefault();
-    // fetch(this.action, { method: this.method, body: formData })
-    //     .then(response => response.json())
-    //     .then(data => console.log(data));
 });
 
   
@@ -282,11 +200,53 @@ document.getElementById('lexusImages').addEventListener('submit', function (even
   
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{{ asset('js/custom.js') }}"></script>
+<script>
+  $(document).on('click', '.remove-file', function(e) {
+    e.preventDefault();
+    var fileType = $(this).data('file-type');
+    var fileId = $(this).data('file-id');
+
+    remove_file(fileType, fileId);
+});
+
+function remove_file(fileType, fileId){
+  Swal.fire({
+        title: 'WARNING',
+        text: 'Are you sure to remove the selected file? Associated data will be removed.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#000',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+  }).then((result) => {
+    if (result.isConfirmed) {
+        $.ajax({
+            url: '/admin/model_management/remove-gallery-image',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                file_type: fileType,
+                file_id: fileId
+            },
+            success: function(response) {
+                if(response.success) {
+                    location.reload();
+                } else {
+                  Swal.fire('Error', 'Failed to remove the file. Please try again.', 'error');
+                }
+            }
+        });
+      } 
+    });
+  }
+</script>
+
 
 @endsection
 
 @section('footer-assets')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
     @parent
 @endsection

@@ -147,7 +147,15 @@ $(document).on("scroll", function(){
             document.querySelectorAll('.text-danger.error').forEach(errorElement => {
               errorElement.textContent = '';
           });
-        }
+          setTimeout(() => {
+          const modal = document.querySelector('.enquiryModal');
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+
+          successMessage.style.display = 'none';
+          successMessage.textContent = '';
+        }, 3000);
+      }
     })
     .catch(error => console.error('Error:', error));
 });

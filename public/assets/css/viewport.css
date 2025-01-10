@@ -7,11 +7,11 @@ header{padding:10px 0;}
 /******slider******/	
 .slider_section{ margin-top: 60px;}
 .slider_section .carousel-caption{display: block !important;left: 0px;padding: 0 0 0 15px;text-align: left;top: auto;width: auto;bottom: 15px; right: 0; transform: none; position: inherit; margin-top: 85px; }
-.slider_section .carousel-caption span {font-size: 18px;}
-.slider_section .carousel-caption h1{ font-size: 28px; line-height: 30px;margin-bottom:30px;}
-.slider_section .carousel-caption h5{font-size: 22px; line-height: 28px; margin-bottom: 10px;}
-.slider_section .carousel-caption h5 br{ display: none;}
-.slider_section .carousel-caption p{ font-size: 18px;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span {font-size: 18px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{ font-size: 1.333rem; margin-bottom:30px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size: 22px; line-height: 28px; margin-bottom: 10px;}
+.slider_section .carousel-caption h5 br, .detail_slider .carousel-caption p br{ display: none;}
+.slider_section .carousel-caption p, .detail_slider .carousel-caption p{ font-size: 18px;}
 .carousel-indicators button.thumbnail {width: 75px;}
 .slider_section .carousel-indicators{bottom: auto;margin: 0;text-align: center;width: 100%;top: 150px;}
 .slideImg{ height: 165px;}
@@ -64,11 +64,11 @@ header{padding:10px 0;}
 /******slider******/	
 .slider_section{ margin-top: 60px;}
 .slider_section .carousel-caption{display: block !important;left: 0px;padding: 0 0 0 15px;text-align: left;top: auto;width: auto;bottom: 15px; right: 0; transform: none; position: inherit; margin-top: 75px; }
-.slider_section .carousel-caption span {font-size: 18px;}
-.slider_section .carousel-caption h1{ font-size: 30px; line-height: 30px;margin-bottom:30px;}
-.slider_section .carousel-caption h5{font-size: 24px; line-height: 32px; margin-bottom: 10px;}
-.slider_section .carousel-caption h5 br{ display: none;}
-.slider_section .carousel-caption p{ font-size: 18px;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span {font-size: 18px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{ font-size: 1.333rem; margin-bottom:30px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size: 24px; line-height: 32px; margin-bottom: 10px;}
+.slider_section .carousel-caption h5 br, .detail_slider .carousel-caption p br{ display: none;}
+.slider_section .carousel-caption p, .detail_slider .carousel-caption p{ font-size: 18px;}
 .carousel-indicators button.thumbnail {width: 110px;}
 .slider_section .carousel-indicators{bottom: auto;margin: 0;text-align: center;width: 100%;top: 200px;}
 .banrCTA .btn{padding: 10px 0px;font-size: 18px;margin-right: 5px; width: 46%;}
@@ -113,11 +113,11 @@ h3 {font-size: 30px;}
 /******slider******/		
 .slider_section {margin-top: 75px;}	
 .slider_section .carousel-caption{display: block !important;left: 20px;padding: 0;text-align: left;width: auto; top: 35%;  }
-.slider_section .carousel-caption h1{ font-size: 28px;line-height: 30px;margin-bottom: 24px;}
-.slider_section .carousel-caption h1 br{ display: none;}
-.slider_section .carousel-caption h5{font-size:22px; line-height: 32px; margin-bottom: 10px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{ font-size: 1.333rem;margin-bottom: 24px;}
+.slider_section .carousel-caption h1 br, .detail_slider .carousel-caption p br{ display: none;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size:22px; line-height: 32px; margin-bottom: 10px;}
 .slider_section .carousel-indicators { margin-bottom: 0;right: 0;left: auto;margin-right: 0;bottom: -50px;text-align: center;margin-left: 0;width: 100%;}
-.slider_section .carousel-caption p {font-size: 18px;}
+.slider_section .carousel-caption p, .detail_slider .carousel-caption p {font-size: 18px;}
 .banrCTA {margin-top: 15px;}
 .banrCTA .btn{padding: 8px 22px;font-size: 18px;}
 .lineDownload{ font-size: 18px;}
@@ -187,12 +187,12 @@ header{ padding:10px 0;}
 /******slider******/	
 .slider_section {margin-top: 75px;}	
 .slider_section .carousel-caption{display: block !important;left: 20px;padding: 0;text-align: left;width: auto; top: 42%;  }
-.slider_section .carousel-caption h1{ font-size: 32px;line-height: 36px; margin-bottom: 20px;}
-.slider_section .carousel-caption h1 br{ display: none;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{ font-size: 1.333rem; margin-bottom: 20px;}
+.slider_section .carousel-caption h1 br, .detail_slider .carousel-caption h1 br{ display: none;}
 .slider_section .primary_btn{font-size: 18px;padding: 12px 34px;}
 .slider_section .carousel-control-next-icon, .slider_section .carousel-control-prev-icon{ display: none;}
-.slider_section .carousel-caption h5{font-size: 26px; line-height: 36px; margin-bottom: 15px;}
-.slider_section .carousel-caption p{ font-size: 18px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size: 26px; line-height: 36px; margin-bottom: 15px;}
+.slider_section .carousel-caption p, .detail_slider .carousel-caption p{ font-size: 18px;}
 .banrCTA {margin-top: 25px;}
 .banrCTA .btn {padding: 8px 26px;font-size: 18px;}
 .lineDownload{font-size: 18px;}
@@ -250,13 +250,13 @@ header{ padding:10px 0;}
 /*****slider*****/	
 .slider_section	{ margin-top: 55px;}	
 .slider_section .carousel-caption{ left: 10%; top: 40%;}	
-.slider_section .carousel-caption span {font-size: 25px;}
-.slider_section .carousel-caption h1{font-size: 42px; line-height: 52px; margin-bottom: 30px;}	
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span {font-size: 25px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{font-size: 1.333rem; margin-bottom: 30px;}	
 .slider_section .primary_btn {font-size: 18px;padding: 11px 33px;}
 .title_topTxt {font-size: 16px; display: block; margin-bottom: 5px;}
-.slider_section .carousel-caption h1 br{display: none;}
-.slider_section .carousel-caption h5 {font-size: 32px;margin-bottom: 20px; line-height: 42px;}
-.slider_section .carousel-caption p {font-size: 20px;}
+.slider_section .carousel-caption h1 br, .detail_slider .carousel-caption h1 br{display: none;}
+.slider_section .carousel-caption h5 , .detail_slider .carousel-caption h5{font-size: 32px;margin-bottom: 20px; line-height: 42px;}
+.slider_section .carousel-caption p , .detail_slider .carousel-caption p{font-size: 20px;}
 .carousel-indicators button.thumbnail{ width:140px;}
 .slider_section .carousel-indicators {margin-bottom: 0;right: 0;margin-right: 15px;bottom: 10px;}
 .banrCTA {margin-top: 25px;}
@@ -299,12 +299,12 @@ p{ font-size: 17px; line-height: 30px;}
 .sec_padding {padding: 70px 0 0 0;} 
 /*****slider*****/
 .slider_section	{ margin-top: 65px;}
-.slider_section .carousel-caption h1{font-size: 45px; line-height: 55px;}
-.slider_section .carousel-caption span{font-size: 26px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{font-size: 1.333rem;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span{font-size: 26px;}
 .slider_section .carousel-caption{ padding-top: 0; top: 45%;left: 12%;}
-.slider_section .carousel-caption h5{font-size: 38px; line-height: 50px; margin-bottom: 20px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size: 38px; line-height: 50px; margin-bottom: 20px;}
 .banrCTA{ margin-top: 30px;}
-.slider_section .carousel-caption p {font-size: 20px;}
+.slider_section .carousel-caption p , .detail_slider .carousel-caption p{font-size: 20px;}
 .slider_section .carousel-indicators {margin-bottom: 0;margin-right: 20px;bottom: 20px;}
 .lexusimgLeft{ height: 100%; object-fit: cover;}
 .lexusMap iframe{ height: 350px;}
@@ -332,10 +332,10 @@ p{ font-size: 17px; line-height: 30px;}
 .sec_padding {padding: 70px 0 0 0;} 
 /*****slider*****/
 .slider_section	{ margin-top: 65px;}
-.slider_section .carousel-caption h1{font-size: 55px; line-height: 65px; margin-bottom: 30px;}
-.slider_section .carousel-caption span{font-size: 26px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{font-size: 1.333rem; margin-bottom: 30px;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span{font-size: 26px;}
 .slider_section .carousel-caption{ padding-top: 0; top: 45%;left: 12%;}
-.slider_section .carousel-caption h5{font-size: 40px; line-height: 55px; margin-bottom: 20px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5{font-size: 40px; line-height: 55px; margin-bottom: 20px;}
 .slider_section .carousel-indicators {margin-bottom: 0;margin-right: 35px;bottom: 35px;}
 .lexusimgLeft{ height: 100%; object-fit: cover;}
 .lexusMap iframe{ height: 400px;}
@@ -364,11 +364,11 @@ p{ font-size: 17px; line-height: 30px;}
 .logo img{width:160px;}
 /*****slider*****/
 .slider_section	{ margin-top: 66px;}
-.slider_section .carousel-caption h1{font-size: 54px; line-height: 66px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{font-size: 1.333rem;}
 .slider_section .primary_btn{font-size: 18px;}
-.slider_section .carousel-caption span{font-size: 26px; margin-top: 35px;}
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span{font-size: 26px; margin-top: 35px;}
 .slider_section .carousel-caption{ padding-top: 0; top: 45%;}
-.slider_section .carousel-caption h5 {font-size: 42px;line-height: 60px; margin-bottom: 20px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5 {font-size: 42px;line-height: 60px; margin-bottom: 20px;}
 .slider_section .carousel-indicators {margin-bottom: 0;margin-right: 30px;bottom: 30px;}
 .lexusimgLeft{ height: 100%; object-fit: cover;}
 .lexusMap iframe{ height: 400px;}
@@ -384,7 +384,7 @@ p{ font-size: 17px; line-height: 30px;}
 }
 @media (min-width: 1600px) and (max-width: 1680px) { 
 /*****common*****/
-h2{ font-size: 45px;}	
+h2{ font-size: 55px;}	
 h3 {font-size: 42px;}
 p{ font-size: 17px; line-height: 30px;}
 .sec_padding {padding: 70px 0 0 0;} 
@@ -392,10 +392,10 @@ p{ font-size: 17px; line-height: 30px;}
 .logo img{width:170px;}
 /*****slider*****/
 .slider_section	{ margin-top: 66px;}
-.slider_section .carousel-caption h1{font-size: 60px; line-height: 70px;}
-.slider_section .carousel-caption span{font-size: 26px;}
+.slider_section .carousel-caption h1, .detail_slider .carousel-caption h1{font-size: 1.333rem; }
+.slider_section .carousel-caption span, .detail_slider .carousel-caption span{font-size: 26px;}
 .slider_section .carousel-caption{ padding-top: 0;}
-.slider_section .carousel-caption h5 { font-size: 42px;line-height: 60px; margin-bottom: 20px;}
+.slider_section .carousel-caption h5, .detail_slider .carousel-caption h5 { font-size: 42px;line-height: 60px; margin-bottom: 20px;}
 .slider_section .carousel-indicators{ margin-bottom: 0;}
 .lexusimgLeft{ height: 100%; object-fit: cover;}
 .lexusMap iframe{ height: 400px;}
