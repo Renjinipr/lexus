@@ -82,7 +82,7 @@ label.error {
     <div class="x_panel p-4">
     <div class="x_title">
         @if($obj->id)
-        <h3>Edit Variants</h3>
+        <h3>Edit Variants <span style="font-size : 0.8em;">{{ session('model_name') }}</span></h3>
         @else
         <h3>Add New Variant <span style="font-size : 0.8em;">{{ session('model_name') }}</span></h3>
         @endif
@@ -166,11 +166,14 @@ label.error {
           @endif
           <div class="col-md-6 col-lg-4 mb-3">
     <label class="form-label">Specification<span class="mandatory"></span></label>
+    @php
+        $lastKey = count($specifications) - 1; // Calculate the last key
+    @endphp
     @foreach($specifications as $key => $specification)
         @php
             $specs = explode('|', $specification);
         @endphp
-        <div id="dynamic_field2">
+        <div id="dynamic_field{{$key}}">
             <div class="form-row row col-md-12 align-items-center mb-3">
                 <div class="col-md-4">
                     <input type="text" class="form-control" id="specification" name="specification[]" placeholder="Specification" value="{{ $specs[0] }}" maxlength="150">
@@ -343,7 +346,7 @@ $variant_image_url=url($obj->image);
 
        <div class="row">
             <div class="col-lg-12 text-right">
-            <a href="{{ url('/admin/model_management/')}}" class="btn  mt-2 btn-secondary">Cancel</a>
+            <a href="{{ url('/admin/variants/' . session('model_id') . '/index')}}" class="btn  mt-2 btn-secondary">Cancel</a>
                     <button type="submit" name="button" id="submitBtn" class="btn btn-primary mt-2 mr-1">Submit</button>
             </div>
         </div>
@@ -571,33 +574,41 @@ function remove_file(fileType, fileId){
   }
 </script>
 <script>
-  var i =0;
-  $('#add2').click(function () {
-    if (i < 5) {
-                    i++;
-                      $('#dynamic_field2').after(`
-  <div class="form-row row col-md-12" style="margin-top: 20px;" id="row2${i}">
-    <div class="col-md-4">
-      <input type="text" class="form-control" name="specification[]" value="" maxlength="150" placeholder="Specification">
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control" name="specific_value[]" value="" maxlength="150" placeholder="Value">
-    </div>
-    <div class="col-md-1">
-      <button type="button" name="remove" class="btn btn-danger btn_remove2" id="${i}">
-        <i class="fa fa-trash"></i>
-      </button>
-    </div>
-  </div>
-`);
-    }
-                  });
-                $(document).on('click', '.btn_remove2', function () {
-                    var button_id = $(this).attr("id");
+  var lastkey = {{ isset($lastKey) ? $lastKey : 10 }};
+  console.log(lastkey);
+  if(lastkey == 10) {
+  var i = 0;
+  lastkey = 2;
+  } 
+  else {
+    var i = lastkey;
+  }
 
-                    $('#row2' + button_id + '').remove();
-                
-                });
+  $('#add2').click(function () {
+    if (i < 4) {
+      i++;
+      $(`#dynamic_field${lastkey}`).after(`
+        <div class="form-row row col-md-12 mt-3" id="row2${i}">
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="specification[]" value="" maxlength="150" placeholder="Specification">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="specific_value[]" value="" maxlength="150" placeholder="Value">
+          </div>
+          <div class="col-md-1">
+            <button type="button" name="remove" class="btn btn-danger btn_remove2" id="${i}">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `);
+    }
+  });
+  $(document).on('click', '.btn_remove2', function () {
+    var button_id = $(this).attr("id");
+    $('#row2' + button_id + '').remove();
+    i--;
+  });
 </script>
 <script>
   $(document).on('click', '.remove-file', function(e) {

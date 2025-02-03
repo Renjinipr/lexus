@@ -127,7 +127,6 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
     Route::post('remove-file', 'App\Http\Controllers\Admin\FeaturesController@removeFile')->name('remove-feature-file');
     Route::get('{id}/feature_delete', 'App\Http\Controllers\Admin\FeaturesController@featureDelete');
   });
-  Route::get('feature_delete', 'App\Http\Controllers\Admin\FeaturesController@featureDelete');
 
 //Model Management
   Route::resource('model_management', 'App\Http\Controllers\Admin\ModelManagementController', ['names' => [
@@ -148,19 +147,14 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth.admin']), functio
 
     //Route::get('model_management/{id}/upload', [App\Http\Controllers\Admin\ModelManagementController::class, 'upload'])->name('Admin.model_management.upload');
 
-    Route::post('upload_images', 'App\Http\Controllers\Admin\ModelManagementController@upload_images')->name('admin.model_management.upload_images');
-    Route::post('/upload-files', [ModelManagementController::class, 'uploadFiles'])->name('upload.files');
 
     Route::post('/file-upload', [ModelManagementController::class, 'upload'])->name('file.upload');
-Route::get('/file-list', [ModelManagementController::class, 'list'])->name('file.list');
-Route::post('/file-delete', [ModelManagementController::class, 'delete'])->name('file.delete');
+    Route::get('/file-list', [ModelManagementController::class, 'list'])->name('file.list');
+    Route::post('/file-delete', [ModelManagementController::class, 'delete'])->name('file.delete');
 
-Route::post('/upload/store', 'App\Http\Controllers\Admin\ModelManagementController@storeCarImages');
-Route::post('/variants_store', 'App\Http\Controllers\Admin\ModelManagementController@variantsStore');
-Route::post('/features', 'App\Http\Controllers\Admin\ModelManagementController@featuresStore');
-
-
+    Route::post('/upload/store', 'App\Http\Controllers\Admin\ModelManagementController@storeCarImages');
   });
+  Route::get('model_delete', 'App\Http\Controllers\Admin\ModelManagementController@modelDelete');
 
 
   //Service Requests

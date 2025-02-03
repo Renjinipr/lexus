@@ -130,7 +130,7 @@ label.error {
           <input type="hidden" name="warranty_user_id" id="warranty_user_id" value="{{$obj->id}}">
           <div class="col-md-6 col-lg-4 mb-3">
             <label class="form-label">Model Name <span class="madatory">*</span></label>
-            <input type="text"  class="form-control" id="model_name" name="model_id" value="{{$obj->model_id}}"  oninput="validateInput(event)"  maxlength="150">
+            <input type="text"  class="form-control" id="model_name" name="model_id" value="{{$obj->model_id}}" maxlength="150">
             <span  class="text-danger error" style="color:#e03b3b" id="model_id_error">{{ $errors->first('model_id') }}</span>               
           </div>
           <div class="col-md-3 col-lg-3 mb-3">
@@ -155,7 +155,7 @@ label.error {
           </div>
           <div class="col-md-6 col-lg-4 mb-3">
             <label class="form-label">Featured: <span class="madatory">*</span></label>
-            {!! Form::checkbox('featured', old('featured'), array('class'=>'form-control', 'id'=>'featured','placeholder'=>'')) !!} 
+            {!! Form::checkbox('featured', 1, $obj->featured, array('id'=>'featured','placeholder'=>'')) !!} 
             <span  class="text-danger error" style="color:#e03b3b" id="featured_error">{{ $errors->first('featured') }}</span>               
           </div>
           <div class="col-md-6 col-lg-4 mb-3">

@@ -33,17 +33,17 @@
                 <h3>Activity</h3>
                 <ul class="nav side-menu">
                     <li class="{{ Request::segment(1) === 'admin' && Request::segment(2) === 'enquiries' ? 'current-page' : '' }}"><a href="{{ route('Admin.enquiries.index') }}">
-                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-02"></span><span
+                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-09"></span><span
                                 class="menu-text-a">Enquiries</span>
                         </a>
                     </li>
                     <li class="{{ Request::segment(1) === 'admin' && Request::segment(2) === 'model_management' ? 'current-page' : '' }}"><a href="{{ route('Admin.model_management.index') }}">
-                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-02"></span><span
+                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-05"></span><span
                                 class="menu-text-a">Model Management</span>
                         </a>
                     </li>
                     <li class="{{ Request::segment(1) === 'admin' && Request::segment(2) === 'settings' ? 'current-page' : '' }}"><a href="{{ route('settings') }}">
-                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-02"></span><span
+                            <!--<i class="fa fa-exchange"></i>--><span class="icon-menu icon-icons-1-01-07"></span><span
                                 class="menu-text-a">Settings</span>
                         </a>
                     </li>

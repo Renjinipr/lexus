@@ -63,187 +63,58 @@ label.error {
 @endsection
 @section('content-area')
 
-<!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-      </div>
-      <div class="modal-body">
-        <img id="modalImage" src="" alt="Image" class="img-fluid">
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="">
   <!------>
     <div class="x_panel p-4">
     <div class="x_title">
-      @if($obj->id)
-        <h3>Edit Feature <span style="font-size : 0.8em;">{{ session('model_name') }}</span></h3>
-      @else
-        <h3>Add New Feature <span style="font-size : 0.8em;">{{ session('model_name') }}</span></h3>
-      @endif
+        <h3>Add Features</h3>
    
                 
 
     </div>
     <div class="x_content">
-    @if($obj->id)
+   
     @section('meta_title')
-    {{  "Edit Features" }}
-    @stop
-    {!! Form::model($obj, array('method' => 'put', 'url' => route($route.'.update', $obj->id), 'files' => true, 'role' => 'form','id'=>'edit_activity')) !!}
-    @else
-    @section('meta_title')
-    {{  "Add New Features" }}
-    @stop
-    {!! Form::open(array('url' => route($route.'.store'), 'files' => true, 'role' => 'form', 'id' =>'add_activity')) !!} 
-    @endif
-
-    <!-- @section('meta_title')
     {{  "Add Features" }}
     @stop
   {!! Form::open(array('url' => url("admin/model_management/features"), 'files' => true, 'role' => 'form', 'method'=>'post', 'enctype'=>"multipart/form-data", 'id' => 'lexusImages')) !!}  
-                        @include('_partials.notifications')  -->
-           
-                        
+                        @include('_partials.notifications') 
+                
+               
+<div class="row label-display-block">
 
-                        <div class="row label-display-block">
 
-@if($obj->id)
-
+<input type="hidden" name="model_id" id="model_id" value="{{$id}}">
 <div class="col-lg-12 mt-1 highlight">
   <div class="">
     <div class="row">
       <div class="col-lg-12 form_page">
         <div class="row">
-          <input type="hidden" name="warranty_user_id" id="warranty_user_id" value="{{$obj->id}}">
-          <div class="col-md-6 col-lg-4 mb-3">
+          <div class="col-md-6 col-lg-6 mb-3">
             <label class="form-label">Title <span class="madatory">*</span></label>
-            <input type="text"  class="form-control" id="title" name="title" value="{{$obj->title}}"  oninput="validateInput(event)"  maxlength="150">
+            <input type="text"  class="form-control" id="title" name="title" value=""    maxlength="150">
             <span  class="text-danger error" style="color:#e03b3b" id="title_error">{{ $errors->first('title') }}</span>               
           </div>
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Description <span class="madatory">*</span></label>
-            {!! Form::textarea('description', old('description'), array('class'=>'form-control', 'id'=>'description','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
-            <span  class="text-danger error" style="color:#e03b3b" id="description_error">{{ $errors->first('description') }}</span>               
-          </div>
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Status <span class="madatory">*</span></label>                
-            {{ Form::select('status', [
-              '1' => 'Active',
-              '0' => 'Inactive',
-              ],old('status'),['class' => ' form-control','id'=>'status']
-            ) }}
-            <span  class="text-danger error" style="color:#e03b3b" id="status_error">{{ $errors->first('status') }}</span>               
-          </div>
-
-          @if($obj->image_url)
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Feature Image<span class="madatory">*</span></label>
-            <div id="attachments">
-            <a href="#" id="imageIcon"  data-toggle="modal" data-target="#imageModal" class="text-decoration-none text-body d-flex align-items-center">
-                <img src="{{asset('img/imgicon.svg')}}" alt="Image Icon" width="50" height="50">
-                <p class="mb-0">Click here to view image</p>
-              </a>
-   
-              <a href="#" class="close remove-file" title="Remove" data-file-type="feature" data-file-id="{{ $obj->id }}" aria-label="Close" style="position: absolute; top: 3px; right: -14px; text-decoration: none; font-size: 30px; background: none; border: none; outline: none; opacity:100%;">
-                <img src="{{ asset('img/close-button.png') }}" alt="Close" style="width: 20px; height: 20px;">
-              </a>
-            </div>
-            <span class="text-danger error" style="color:#e03b3b" id="attachments_error">{{ $errors->first('attachments') }}</span>
-          </div>
-          @else
-          <div class="col-md-6 col-lg-6 mb-3">
-              <label class="form-label">Feature Image <span style="font-size:12px" class="text-muted">(An 500*250 image would be recommended. Allowed file formats: png, jpeg,jpg, webp.)</span></label>
-              <!-- <span class="form-text text-muted">(Allowed file formats: png, jpeg, pdf. Max file size: 2MB.)</span> -->
-              <input type="file"  class="" id="feature_image" name="feature_image" accept=".png,.jpeg,.jpg,.webp">
-              <span  class="text-danger error" style="color:#e03b3b" id="feature_image_error">{{ $errors->first('feature_image') }}</span> 
-            </div>
-
-          @endif
+      
+       
+     
         
-        </div>
-      </div>
-    </div>  
-  </div>  
-</div>
-
-<?php
-$feature_image_url=url($obj->image_url);
-?>
-
-@else
-
-<div class="col-lg-12 mt-1">
-  <div class="card position-relative new-con-label">
-    <div class="row  p-2">
-      <div class="col-lg-12 form_page">
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Title <span class="madatory">*</span></label>
-            <input type="text"  class="form-control" id="title" name="title"  maxlength="150">
-            <span  class="text-danger error" style="color:#e03b3b" id="title_error">{{ $errors->first('title') }}</span>               
-            </div>
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Description <span class="madatory">*</span></label>
-            {!! Form::textarea('description', old('description'), array('class'=>'form-control', 'id'=>'description','placeholder'=>'', 'style'=>'height: 85px;')) !!} 
-            <span  class="text-danger error" style="color:#e03b3b" id="description_error">{{ $errors->first('description') }}</span>               
-          </div>
-          <div class="col-md-6 col-lg-6 mb-3">
-            <label class="form-label">Feature Image<span style="font-size:12px" class="text-muted">(An 500*250 image would be recommended. Allowed file formats: png, jpeg,jpg, webp.)</span></label>
-            <input type="file"  class="" id="feature_image" name="feature_image" accept=".png,.jpeg,.jpg">
-            <span  class="text-danger error" style="color:#e03b3b" id="feature_image_error">{{ $errors->first('feature_image') }}</span> 
-          </div>
-          <div class="col-md-6 col-lg-4 mb-3">
-            <label class="form-label">Status <span class="madatory">*</span></label>                
-            {{ Form::select('status', [
-                      '1' => 'Active',
-                      '0' => 'Inactive',
-                      ],old('status'),['class' => ' form-control','id'=>'status']
-                    ) }}
-            <span  class="text-danger error" style="color:#e03b3b" id="status_error">{{ $errors->first('status') }}</span>               
-          </div>
-        </div>
-      </div>
-    </div>  
-  </div>  
-</div>
-@endif
-
-<div class="scroll-sec w-100" id="add_connector_sec" >  </div>    
-</div>
-
-              
-<!-- <div class="row label-display-block">
-
-
-<input type="hidden" name="model_id" id="model_id" value="{{$obj->id}}">
-<div class="col-lg-12 mt-1 highlight">
-  <div class="">
-    <div class="row">
-      <div class="col-lg-12 form_page">
-        <div class="row">
-          <div class="col-md-6 col-lg-6 mb-3">
-            <label class="form-label">Title <span class="madatory">*</span></label>
-            <input type="text"  class="form-control" id="title" name="title" value="{{ $obj->title }}"    maxlength="150">
-            <span  class="text-danger error" style="color:#e03b3b" id="title_error">{{ $errors->first('title') }}</span>               
-          </div>
-          <div class="col-md-6 col-lg-6 mb-3">
-              <label class="form-label">images <span style="font-size:12px" class="text-muted">(Allowed file formats: png, jpeg,jpg. Max file size: 2MB.)</span></label> -->
+  
+            <div class="col-md-6 col-lg-6 mb-3">
+              <label class="form-label">images <span style="font-size:12px" class="text-muted">(Allowed file formats: png, jpeg,jpg. Max file size: 2MB.)</span></label>
               <!-- <span class="form-text text-muted">(Allowed file formats: png, jpeg, pdf. Max file size: 2MB.)</span> -->
-              <!--<input type="file"  class="" id="image_url" name="image_url" accept=".png,.jpeg,.jpg">
+              <input type="file"  class="" id="image_url" name="image_url" accept=".png,.jpeg,.jpg">
               <span  class="text-danger error" style="color:#e03b3b" id="banner_error">{{ $errors->first('image_url') }}</span> 
             </div>
-          <div class="col-md-6 col-lg-6 mb-3">
+
+    <div class="col-md-6 col-lg-6 mb-3">
             <label class="form-label">Description <span class="madatory">*</span></label>
             <textArea type="textArea"  class="form-control" id="description" name="description" value=""></textArea>
             <span  class="text-danger error" style="color:#e03b3b" id="sub_title_error">{{ $errors->first('description') }}</span>               
           </div>
-          <div class="col-md-6 col-lg-6 mb-3">
+
+      <div class="col-md-6 col-lg-6 mb-3">
             <label class="form-label">Status <span class="madatory">*</span></label>                
             {{ Form::select('status', [
               '1' => 'Active',
@@ -252,6 +123,7 @@ $feature_image_url=url($obj->image_url);
             ) }}
             <span  class="text-danger error" style="color:#e03b3b" id="status_error">{{ $errors->first('status') }}</span>               
           </div>
+
         </div>
       </div>
     </div>  
@@ -262,11 +134,11 @@ $feature_image_url=url($obj->image_url);
 
 
 <div class="scroll-sec w-100" id="add_connector_sec" >  </div>    
-</div> -->
+</div>     
 
        <div class="row">
             <div class="col-lg-12 text-right">
-            <a href="{{ url('/admin/features/' . session('model_id') . '/index')}}" class="btn  mt-2 btn-secondary">Cancel</a>
+            <a href="{{ url('/admin/model_management/')}}" class="btn  mt-2 btn-secondary">Cancel</a>
                     <button type="submit" name="button" id="submitBtn" class="btn btn-primary mt-2 mr-1">Submit</button>
             </div>
         </div>
@@ -437,20 +309,6 @@ $(document).ready(function () {
         e.preventDefault();
     }
 });
-
-var featureImageFile = @json($feature_image_url ?? null);
-  if (featureImageFile) {
-    $("#imageIcon").attr("href", featureImageFile).show();
-  }
-
-
-  $("#imageIcon").click(function(e) {
-    e.preventDefault();
-    $("#modalImage").attr("src", $(this).attr("href"));
-    $("#imageModal").modal('show');
-  });
-
-});
 </script>
 <script>
   $(document).on('click', '.remove-file', function(e) {
@@ -544,7 +402,7 @@ function remove_file(fileType, fileId){
   }).then((result) => {
     if (result.isConfirmed) {
         $.ajax({
-            url: '/admin/features/remove-file',
+            url: '/admin/remove-file',
             method: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -564,3 +422,7 @@ function remove_file(fileType, fileId){
   }
 </script>
 @endsection
+
+
+
+
