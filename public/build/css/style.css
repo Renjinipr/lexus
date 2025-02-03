@@ -158,7 +158,7 @@ button:focus
 /*--------------10jan2023----------------*/
 /*--------------menu----------------*/
 .left_col {overflow: hidden;}
-.icon-menu{font-size: 25px; padding-right: 10px;}
+.icon-menu{font-size: 26px; padding-right: 10px;}
 .menu-sec-side .side-menu li a span, .main_menu .fa{float: left;}
 span.menu-text-a {padding: 3px 0;}
 .menu_section, .menu_section>ul, .nav.side-menu>li, .nav.child_menu>li, .nav.side-menu>li>a, .nav.child_menu>li>a { width: 100%; float: left; }

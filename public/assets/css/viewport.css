@@ -14,7 +14,7 @@ header{padding:10px 0;}
 .slider_section .carousel-caption p, .detail_slider .carousel-caption p{ font-size: 18px;}
 .carousel-indicators button.thumbnail {width: 75px;}
 .slider_section .carousel-indicators{bottom: auto;margin: 0;text-align: center;width: 100%;top: 150px;}
-.slideImg{ height: 165px;}
+.slideImg{ height: 165px; object-fit:cover; object-position: center;}
 .banrCTA .btn{padding: 10px 0px;font-size: 18px;margin-right: 5px; width: 46%;}
 .banrCTA {margin-top: 20px;}
 .lineDownload {font-size: 18px;float: right; margin: 20px;}
@@ -74,7 +74,7 @@ header{padding:10px 0;}
 .banrCTA .btn{padding: 10px 0px;font-size: 18px;margin-right: 5px; width: 46%;}
 .banrCTA {margin-top: 20px;}
 .lineDownload {font-size: 18px;float: right;margin: 20px;}
-.slideImg{ height: 250px;}
+.slideImg{ height: 250px; object-fit:cover; object-position: center;}
 .formBlockSelect .col-lg-4{ width: 30% !important;}
 .formBlockSelect .col-lg-8{ width: 70% !important;}
 .formBlockCityModel .form-control{ margin-bottom: 15px;}

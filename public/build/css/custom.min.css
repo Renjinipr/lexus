@@ -4885,7 +4885,7 @@ ul.verticle_bars li {
 .alert-danger,
 .alert-error {
   color: #e9edef;
-  background-color: rgba(0, 0, 0, 0.88);
+  background-color: rgba(199, 0, 0, 0.88);
   border-color: rgba(0, 0, 0, 0.88);
 }
 .ui-pnotify.dark .ui-pnotify-container {
